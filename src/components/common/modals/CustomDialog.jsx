@@ -1,5 +1,14 @@
 import { mdiClose } from "@mdi/js";
-import { Box, Dialog, DialogTitle, styled } from "@mui/material";
+import {
+  Box,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  styled,
+  SvgIcon,
+  Typography,
+} from "@mui/material";
 
 const CustomDialogStyled = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
