@@ -1,4 +1,5 @@
 import { Fragment } from "react";
+import CustomDialog from "./CustomDialog";
 
 function MediumModal({ open, handleClose, children, title = "" }) {
   return (
