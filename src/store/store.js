@@ -6,13 +6,15 @@ import { persist, createJSONStorage } from "zustand/middleware";
 
 export const useBoundStore = create(
   devtools(
-    persist((...a) => ({
-      ...createUserSlice(...a),
-      ...createModeSlice(...a),
-    })),
-    {
-      name: "app-storage", // unique name
-      storage: createJSONStorage(() => localStorage),
-    }
+    persist(
+      (...a) => ({
+        ...createUserSlice(...a),
+        ...createModeSlice(...a),
+      }),
+      {
+        name: "app-storage", // unique name
+        storage: createJSONStorage(() => localStorage),
+      }
+    )
   )
 );
