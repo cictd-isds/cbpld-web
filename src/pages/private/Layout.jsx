@@ -265,6 +265,7 @@ export default function Layout() {
           width: "100%",
           overflowX: "hidden",
           flex: 1,
+          mt: "2rem",
         }}
       >
         <Box width="100dvw" height="calc(100dvh - 130px)" px={2}>
