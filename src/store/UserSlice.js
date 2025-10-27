@@ -11,7 +11,6 @@ export const createUserSlice = (set) => ({
       })),
     logout: () => {
       set({ user: null, token: null });
-      localStorage.removeItem("app-storage"); // 🧹 Clear persisted data
     },
   },
 

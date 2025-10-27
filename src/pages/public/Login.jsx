@@ -7,13 +7,11 @@ import Button from "@mui/material/Button";
 import { Box } from "@mui/material";
 import { loginSchema } from "../../utils/schemas/authSchema";
 import { useAuth } from "../../utils/hooks/useAuth";
-import { useNavigate } from "react-router";
 
 const schema = loginSchema;
 
 export default function Login() {
   const { loginMutation } = useAuth();
-  // const navigate = useNavigate();
   const {
     handleSubmit,
     register,
@@ -25,7 +23,6 @@ export default function Login() {
   const submit = handleSubmit((data) => {
     console.log(data);
     loginMutation.mutate(data);
-    // navigate("/home");
   });
 
   return (
@@ -60,6 +57,7 @@ export default function Login() {
         variant="contained"
         type="submit"
         size="large"
+        loading={loginMutation?.isPending}
         sx={{ borderRadius: 25 }}
       >
         Login

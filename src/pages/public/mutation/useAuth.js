@@ -11,7 +11,7 @@ function useAuth() {
   };
 
   const register = async (data) => {
-    await csrf();
+    // await csrf();
     const response = await API.post("/api/auth/login", data);
     setUserAndToken({
       user: response.data.user,
@@ -21,7 +21,7 @@ function useAuth() {
   };
 
   const login = async (data) => {
-    await csrf();
+    // await csrf();
     const response = await API.post("/api/login", data);
     setUserAndToken({
       user: response.data.user,
