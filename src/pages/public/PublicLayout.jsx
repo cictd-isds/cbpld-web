@@ -45,7 +45,7 @@ const topNav = [
 
 function PublicLayout() {
   const navigate = useNavigate();
-
+  const token = useBoundStore((state) => state.token);
   const [selectedNav, setSelectedNav] = useState(topNav[0]);
   const handleSelectedNav = (param) => setSelectedNav(param);
 
@@ -55,10 +55,10 @@ function PublicLayout() {
   const theme = useTheme();
 
   useEffect(() => {
-    if (localStorage.getItem("app-storage")) {
+    if (token) {
       navigate("/home");
     }
-  });
+  }, []);
 
   return (
     <Box
@@ -148,11 +148,6 @@ function LoginCard() {
   });
 
   const [isOpenRegister, setIsOpenRegister] = useState(false);
-
-  const submit = handleSubmit((data) => {
-    console.log(data);
-    loginMutation.mutate(data);
-  });
 
   return (
     <Card

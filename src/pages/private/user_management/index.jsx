@@ -147,7 +147,7 @@ function UserManagement() {
       <Box></Box>
       <Box>
         <Datatable
-          apiLink=""
+          apiLink="/api/users"
           customColumns={columnHeader}
           columnGroupingModel={CustomColumnGroupingModel}
           exportFileName=""
