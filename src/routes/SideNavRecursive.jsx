@@ -40,7 +40,7 @@ const SideNavRecursive = ({
     return navs?.map((nav) => {
       const fullPath = parentPath ? `${parentPath}/${nav.path}` : nav.path;
       console.log("full", fullPath);
-      if (nav.index) {
+      if (nav.index || nav.hidden) {
         return;
       }
       if (nav.children?.length) {

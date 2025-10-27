@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import API from "../../utils/api";
+import API from "../../utils/api/apiClient";
 import { useLocation } from "react-router";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";

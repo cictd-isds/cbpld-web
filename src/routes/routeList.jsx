@@ -9,11 +9,13 @@ import { projRoutes } from "./projRoutes";
 import UserRoles from "../pages/private/roles/UserRoles";
 import Icon from "@mdi/react";
 import { mdiAccountGroup, mdiAccount, mdiAccountKey } from "@mdi/js";
+import { hrisRoutes } from "./hrisRoutes";
+import PublicLayout from "../pages/public/PublicLayout";
 
 const publicRoutes = [
   {
     path: "/",
-    element: <Login />,
+    element: <PublicLayout />,
   },
   {
     path: "register",
@@ -48,10 +50,12 @@ const privateRoutes = [
       {
         path: "profile",
         element: <Profile />,
+        hidden: true,
         name: "Profle",
         icon: <Icon path={mdiAccount} size={1} />,
       },
       ...projRoutes,
+      ...hrisRoutes,
     ],
   },
 ];

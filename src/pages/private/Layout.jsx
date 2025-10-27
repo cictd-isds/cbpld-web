@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -12,7 +12,7 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { Outlet } from "react-router";
+import { Outlet, useNavigate } from "react-router";
 import MuiSwitch from "../../components/common/MuiSwitch";
 import { Badge, Grid, ListItemIcon } from "@mui/material";
 import { allRoutes } from "../../routes/routeList";
@@ -29,8 +29,10 @@ import Icon from "@mdi/react";
 import { mdiBell } from "@mdi/js";
 import { useBoundStore } from "../../store/store";
 import { yellow } from "@mui/material/colors";
+import CustomBreadCrumbs from "../../components/common/CustomBreadCrumbs";
+import { useAuth } from "../../utils/hooks/useAuth";
 
-const drawerWidth = 300;
+const drawerWidth = 350;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme }) => ({
@@ -88,10 +90,12 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 export default function Layout() {
+  const { logoutMutation } = useAuth();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [anchorElAccount, setAnchorElAccount] = React.useState(null);
   const openAccount = Boolean(anchorElAccount);
+  const navigate = useNavigate();
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -107,9 +111,18 @@ export default function Layout() {
     setAnchorElAccount(null);
   };
 
+  const handleProfileNav = () => {
+    navigate("/home/profile");
+  };
   const mode = useBoundStore((state) => state.mode);
 
   const [openNodes, setOpenNodes] = useState({});
+
+  useEffect(() => {
+    if (!localStorage.getItem("app-storage")) {
+      navigate("/");
+    }
+  });
 
   return (
     <Box sx={{ display: "flex", flexGrow: 1, width: "100dvw" }}>
@@ -190,11 +203,8 @@ export default function Layout() {
             transformOrigin={{ horizontal: "right", vertical: "top" }}
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
           >
-            <MenuItem onClick={handleCloseAccount}>
+            <MenuItem onClick={() => handleProfileNav()}>
               <Avatar /> Profile
-            </MenuItem>
-            <MenuItem onClick={handleCloseAccount}>
-              <Avatar /> My account
             </MenuItem>
             <Divider />
             <MenuItem onClick={handleCloseAccount}>
@@ -203,7 +213,13 @@ export default function Layout() {
               </ListItemIcon>
               Settings
             </MenuItem>
-            <MenuItem onClick={handleCloseAccount}>
+            <MenuItem
+              onClick={() => {
+                // console.log("logout");
+                logoutMutation.mutate();
+                navigate("/");
+              }}
+            >
               <ListItemIcon>
                 <Logout fontSize="small" />
               </ListItemIcon>
@@ -265,9 +281,11 @@ export default function Layout() {
           width: "100%",
           overflowX: "hidden",
           flex: 1,
+          mt: "2rem",
         }}
       >
-        <Box width="100dvw" height="calc(100dvh - 130px)" px={2}>
+        <Box width="100dvw" height="calc(100dvh - 100px)" px={2}>
+          <CustomBreadCrumbs />
           <Outlet />
         </Box>
       </Main>
