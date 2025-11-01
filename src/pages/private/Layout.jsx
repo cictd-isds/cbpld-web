@@ -30,8 +30,7 @@ import { mdiBell } from "@mdi/js";
 import { useBoundStore } from "../../store/store";
 import { yellow } from "@mui/material/colors";
 import CustomBreadCrumbs from "../../components/common/CustomBreadCrumbs";
-import { useAuth } from "../../utils/hooks/useAuth";
-
+import useAuth from "../public/mutation/useAuth";
 const drawerWidth = 350;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(

@@ -1,4 +1,3 @@
-import Login from "../pages/public/Login";
 import Profile from "../pages/private/profile";
 import UserManagement from "../pages/private/user_management";
 import Register from "../pages/public/Register";

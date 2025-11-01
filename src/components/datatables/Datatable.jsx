@@ -406,6 +406,7 @@ function Datatable({
   customColumns = [],
   columnGroupingModel = [],
   exportFileName,
+  queryKey,
 }) {
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
@@ -430,7 +431,7 @@ function Datatable({
 
   const { data, isLoading, isError, error, isFetching } = useQuery({
     queryKey: [
-      "table",
+      queryKey,
       apiLink,
       paginationModel.page,
       paginationModel.pageSize,

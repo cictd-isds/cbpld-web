@@ -21,7 +21,7 @@ import Faq from "./Faq";
 import { useBoundStore } from "../../store/store";
 import ModalComponent from "../../components/common/ModalComponent";
 import Register from "./Register";
-import Login from "./Login";
+import LoginForm from "./LoginForm";
 import { useNavigate } from "react-router";
 
 const topNav = [
@@ -131,22 +131,6 @@ function PublicLayout() {
 export default PublicLayout;
 
 function LoginCard() {
-  const schema = yup
-    .object({
-      email: yup.string().required(),
-      password: yup.string().required(),
-    })
-    .required();
-  const { loginMutation } = useAuth();
-
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
-
   const [isOpenRegister, setIsOpenRegister] = useState(false);
 
   return (
@@ -183,7 +167,7 @@ function LoginCard() {
         title="green iguana"
       />
       <CardContent sx={{ px: 3 }}>
-        <Login />
+        <LoginForm />
       </CardContent>
       <CardActions
         sx={{ display: "flex", justifyContent: "space-between", px: 5, py: 2 }}
