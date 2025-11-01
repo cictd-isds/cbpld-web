@@ -35,20 +35,18 @@ export default function LoginForm() {
         Sign-in
       </Typography>
       <TextField
-        variant="outlined"
-        placeholder="Email"
         label="Email"
         {...register("email")}
+        error={!!errors.email}
+        helperText={errors.email?.message}
       />
-      {errors?.username && <p>{errors.username.message}</p>}
       <TextField
-        variant="outlined"
         label="Password"
-        placeholder="Password"
         {...register("password")}
         type="password"
+        error={!!errors.password}
+        helperText={errors.password?.message}
       />
-      {errors?.password && <p>{errors.password.message}</p>}
       <Button
         variant="contained"
         type="submit"

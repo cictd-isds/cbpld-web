@@ -24,7 +24,7 @@ export default function Register({ onClose }) {
     // console.log("data");
     console.log(data);
     registerMutation.mutate(data);
-    onClose();
+    // onClose();
   });
 
   return (
@@ -37,46 +37,46 @@ export default function Register({ onClose }) {
         padding: 5,
       }}
     >
-      <Typography textAlign="center" color="primary.main" variant="h6">
+      {/* <Typography textAlign="center" color="primary.main" variant="h6">
         Register
-      </Typography>
+      </Typography> */}
       <TextField
-        variant="outlined"
-        placeholder="Name"
         label="Name"
         {...register("name")}
+        error={!!errors.name}
+        helperText={errors.name?.message}
       />
-      {errors?.name && <p>{errors.name.message}</p>}
+
       <TextField
-        variant="outlined"
-        placeholder="Email"
         label="Email"
         {...register("email")}
+        error={!!errors.email}
+        helperText={errors.email?.message}
       />
-      {errors?.email && <p>{errors.email.message}</p>}
+
       <TextField
-        variant="outlined"
         label="Password"
-        placeholder="Password"
         {...register("password")}
         type="password"
+        error={!!errors.password}
+        helperText={errors.password?.message}
       />
-      {errors?.password && <p>{errors.password.message}</p>}
+
       <TextField
-        variant="outlined"
         label="Confirm Password"
-        placeholder="Confirm Password"
         {...register("confirmPassword")}
         type="password"
+        error={!!errors.confirmPassword}
+        helperText={errors.confirmPassword?.message}
       />
-      {errors?.confirmPassword && <p>{errors.confirmPassword.message}</p>}
       <Button
         variant="contained"
         type="submit"
         size="large"
+        loading={registerMutation?.isPending}
         sx={{ borderRadius: 25 }}
       >
-        Login
+        Register
       </Button>
     </form>
   );
