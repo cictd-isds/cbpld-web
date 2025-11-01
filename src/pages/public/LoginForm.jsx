@@ -1,16 +1,13 @@
-import React from "react";
-import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { TextField, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
-import { Box } from "@mui/material";
 import { loginSchema } from "../../utils/schemas/authSchema";
-import { useAuth } from "../../utils/hooks/useAuth";
+import useAuth from "./mutation/useAuth";
 
 const schema = loginSchema;
 
-export default function Login() {
+export default function LoginForm() {
   const { loginMutation } = useAuth();
   const {
     handleSubmit,
@@ -21,7 +18,6 @@ export default function Login() {
   });
 
   const submit = handleSubmit((data) => {
-    console.log(data);
     loginMutation.mutate(data);
   });
 

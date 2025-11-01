@@ -191,6 +191,7 @@ function CustomBreadCrumbs() {
                         >
                           <IconContainer icon={item.icon} />
                           <Typography
+                            variant="body2"
                             sx={{
                               fontWeight:
                                 index === breadcrumbs.length - 1 ? 500 : "",

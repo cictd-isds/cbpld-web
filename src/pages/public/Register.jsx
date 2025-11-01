@@ -6,7 +6,7 @@ import { TextField, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import { Box } from "@mui/material";
 import { registerSchema } from "../../utils/schemas/authSchema";
-import { useAuth } from "../../utils/hooks/useAuth";
+import useAuth from "./mutation/useAuth";
 
 const schema = registerSchema;
 export default function Register({ onClose }) {

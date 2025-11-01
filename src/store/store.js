@@ -18,15 +18,8 @@ export const useBoundStore = create(
           user: state.user,
           token: state.token,
           mode: state.mode,
+          permissions: state.permissions,
         }),
-        // onRehydrateStorage: () => (state) => {
-        //   console.log("🌀 Rehydrating Zustand store from localStorage...");
-        //   if (state?.token) {
-        //     console.log("✅ User session restored:", state.user?.name);
-        //   } else {
-        //     console.log("🚪 No token found, user logged out.");
-        //   }
-        // },
       }
     )
   )
