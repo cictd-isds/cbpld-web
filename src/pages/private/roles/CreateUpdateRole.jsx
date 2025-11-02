@@ -5,7 +5,6 @@ import Button from "@mui/material/Button";
 import { roleSchema } from "../../../utils/schemas/roles/rolesSchema";
 import { useEffect } from "react";
 import useRolesMutation from "./mutation/useRolesMutation";
-import CustomSnackbar from "../../../components/common/CustomGlobalSnackbar";
 
 function CreateUpdateRole({ data, handleCloseModal }) {
   const { createRoleMutation, updateRoleMutation } = useRolesMutation();
