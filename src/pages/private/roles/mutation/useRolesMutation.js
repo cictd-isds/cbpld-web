@@ -35,8 +35,8 @@ function useRolesMutation() {
     onMutate: () => {
       setPending(true);
     },
-    onSuccess: (data) => setSuccess({ isSuccess: true, data }),
-    onError: (error) => setError({ isError: true, error }),
+    onSuccess: (data) => setSuccess(data),
+    onError: (error) => setError(error),
     onSettled: () => setPending(false),
   });
 
@@ -45,8 +45,8 @@ function useRolesMutation() {
     onMutate: () => {
       setPending(true);
     },
-    onSuccess: (data) => setSuccess({ isSuccess: true, data }),
-    onError: (error) => setError({ isError: true, error }),
+    onSuccess: (data) => setSuccess(data),
+    onError: (error) => setError(error),
     onSettled: () => setPending(false),
   });
 
@@ -55,8 +55,8 @@ function useRolesMutation() {
     onMutate: () => {
       setPending(true);
     },
-    onSuccess: (data) => setSuccess({ isSuccess: true, data }),
-    onError: (error) => setError({ isError: true, error }),
+    onSuccess: (data) => setSuccess(data),
+    onError: (error) => setError(error),
     onSettled: () => setPending(false),
   });
 

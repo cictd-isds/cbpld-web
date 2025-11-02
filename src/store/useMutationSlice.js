@@ -14,18 +14,18 @@ export const createuseMutationSlice = (set, get) => ({
       isError: false,
     }),
   setPending: (pending) => set({ pending }),
-  setSuccess: ({ isSuccess, data }) => {
+  setSuccess: (data) => {
     set({
-      isSuccess,
+      isSuccess: true,
       data,
       mutationId: Date.now(),
       isError: false,
       error: null,
     });
   },
-  setError: ({ isError, error }) => {
+  setError: (error) => {
     set({
-      isError,
+      isError: true,
       error: error,
       mutationId: Date.now(),
       isSuccess: false,
