@@ -9,7 +9,7 @@ export default function CustomGlobalSnackbar({
   vertical = "top",
   horizontal = "right",
 }) {
-  const { isSuccess, isError, error, data } = useBoundStore();
+  const { isSuccess, isError, error, data, mutationId } = useBoundStore();
   const [open, setOpen] = React.useState(false);
 
   const renderer = React.useRef(false);
@@ -30,7 +30,7 @@ export default function CustomGlobalSnackbar({
         setOpen(true);
       }
     }
-  }, [isSuccess, isError]);
+  }, [isSuccess, isError, mutationId]);
 
   return (
     <Box>

@@ -33,31 +33,31 @@ function useRolesMutation() {
   const createRoleMutation = useMutation({
     mutationFn: createRole,
     onMutate: () => {
-      clearMutation();
       setPending(true);
     },
     onSuccess: (data) => setSuccess({ isSuccess: true, data }),
     onError: (error) => setError({ isError: true, error }),
+    onSettled: () => setPending(false),
   });
 
   const updateRoleMutation = useMutation({
     mutationFn: updateRole,
     onMutate: () => {
-      clearMutation();
       setPending(true);
     },
     onSuccess: (data) => setSuccess({ isSuccess: true, data }),
     onError: (error) => setError({ isError: true, error }),
+    onSettled: () => setPending(false),
   });
 
   const deleteRoleMutation = useMutation({
     mutationFn: deleteRole,
     onMutate: () => {
-      clearMutation();
       setPending(true);
     },
     onSuccess: (data) => setSuccess({ isSuccess: true, data }),
     onError: (error) => setError({ isError: true, error }),
+    onSettled: () => setPending(false),
   });
 
   return {

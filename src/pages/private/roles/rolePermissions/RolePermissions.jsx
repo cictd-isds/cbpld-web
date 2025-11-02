@@ -1,16 +1,10 @@
 import { Alert, Box, Button, Snackbar, Typography } from "@mui/material";
-import ListSubheader from "@mui/material/ListSubheader";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Collapse from "@mui/material/Collapse";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import DraftsIcon from "@mui/icons-material/Drafts";
-import SendIcon from "@mui/icons-material/Send";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import StarBorder from "@mui/icons-material/StarBorder";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -72,7 +66,6 @@ function RolePermissions({ permissions, data, handleClose }) {
 
   const returnPerm = useCallback(
     (permission, moduleName) => {
-      console.log("permissions", permission);
       return (
         <Box sx={{ width: "100%" }}>
           <List>
@@ -81,7 +74,7 @@ function RolePermissions({ permissions, data, handleClose }) {
                 ? moduleName + "." + p?.module
                 : p?.module;
               return (
-                <>
+                <React.Fragment key={p.module}>
                   <ListItemButton
                     variant="contained"
                     onClick={() => onToggle(moduleNameJoiner)}
@@ -106,7 +99,7 @@ function RolePermissions({ permissions, data, handleClose }) {
                         <Box display="flex" gap={2}>
                           {p?.perms?.map((perm) => {
                             return (
-                              <FormGroup>
+                              <FormGroup key={perm}>
                                 <FormControlLabel
                                   onChange={() =>
                                     onChangePerm(`${moduleNameJoiner}.${perm}`)
@@ -127,7 +120,7 @@ function RolePermissions({ permissions, data, handleClose }) {
                       )}
                     </List>
                   </Collapse>
-                </>
+                </React.Fragment>
               );
             })}
           </List>
