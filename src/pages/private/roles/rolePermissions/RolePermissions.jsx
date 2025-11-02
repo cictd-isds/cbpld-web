@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Alert, Box, Button, Snackbar, Typography } from "@mui/material";
 import ListSubheader from "@mui/material/ListSubheader";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -11,18 +11,14 @@ import SendIcon from "@mui/icons-material/Send";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import StarBorder from "@mui/icons-material/StarBorder";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import useRolesMutation from "../mutation/useRolesMutation";
 
-const defaultPerms = [
-  "super-admin.view",
-  "super-admin.create",
-  "bivs.user-management.view",
-];
-
-function RolePermissions({ permissions }) {
+function RolePermissions({ permissions, data, handleClose }) {
+  const { updateRoleMutation } = useRolesMutation();
   const transformPerm = useMemo(() => {
     const root = [];
     permissions.forEach(({ name }) => {
@@ -53,7 +49,7 @@ function RolePermissions({ permissions }) {
     return root;
   }, [permissions]);
 
-  const [permState, setPermState] = useState(defaultPerms);
+  const [permState, setPermState] = useState([]);
   const [open, setOpen] = useState({});
 
   const onToggle = useCallback((name) => {
@@ -67,6 +63,12 @@ function RolePermissions({ permissions }) {
   }, []);
   console.log(open);
   console.log(permState);
+
+  useEffect(() => {
+    const perms = data?.permissions?.map((item) => item.name);
+    setPermState(perms);
+    console.log("permsss", perms);
+  }, [data]);
 
   const returnPerm = useCallback(
     (permission, moduleName) => {
@@ -135,7 +137,33 @@ function RolePermissions({ permissions }) {
     [open, permState, onChangePerm, onToggle]
   );
 
-  return <div>{returnPerm(transformPerm || [], "")}</div>;
+  const handleUpdateRolePermissions = () => {
+    const payload = {
+      id: data?.id,
+      name: data?.name,
+      permissions: permState,
+    };
+    updateRoleMutation.mutate(payload, {
+      onSuccess: () => handleClose(),
+      onSettled: () => {},
+    });
+  };
+
+  return (
+    <Box width={{ md: 600, sm: 300, lg: 800 }}>
+      {returnPerm(transformPerm || [], "")}
+      <Box display="flex" justifyContent="flex-end" mt={2}>
+        <Button
+          variant="contained"
+          color="warning"
+          loading={updateRoleMutation.isPending}
+          onClick={handleUpdateRolePermissions}
+        >
+          Update Permissions
+        </Button>
+      </Box>
+    </Box>
+  );
 }
 
 export default React.memo(RolePermissions);

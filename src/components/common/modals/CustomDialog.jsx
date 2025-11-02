@@ -55,7 +55,6 @@ function CustomDialog({
       <DialogContent>
         <Box
           noValidate
-          component="form"
           sx={{
             display: "flex",
             flexDirection: "column",
