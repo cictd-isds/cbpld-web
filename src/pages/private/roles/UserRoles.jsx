@@ -7,9 +7,14 @@ import { useFetcPermissions } from "./query/useFetchPermissions";
 import MediumModal from "../../../components/common/modals/MediumModal";
 import RolePermissions from "./rolePermissions/RolePermissions";
 import { ROLES } from "../../../utils/queryKeys";
+import CreateUpdateRole from "./CreateUpdateRole";
+import { ConfirmDialog } from "../../../components/common/ConfirmDialog";
+import useRolesMutation from "./mutation/useRolesMutation";
+import CustomGlobalSnackbar from "../../../components/common/CustomGlobalSnackbar";
 
 export default function UserRoles() {
   const { data: permissions } = useFetcPermissions();
+  const { deleteRoleMutation } = useRolesMutation();
   const [openModal, setOpenModal] = useState({
     type: "",
     data: null,
@@ -55,20 +60,6 @@ export default function UserRoles() {
         );
       },
     },
-    // {
-    //   field: "users_count",
-    //   headerName: "Users Assigned",
-    //   flex: 0.8,
-    //   align: "center",
-    //   renderCell: (params) => (
-    //     <Chip
-    //       label={params.value || 0}
-    //       color="secondary"
-    //       variant="outlined"
-    //       size="small"
-    //     />
-    //   ),
-    // },
     {
       field: "actions",
       headerName: "Actions",
@@ -90,18 +81,27 @@ export default function UserRoles() {
             <Tooltip title="View Role Details">
               <IconButton
                 color="primary"
-                onClick={() => handleOpenModal({ type: "view", data: row })}
+                onClick={() => handleOpenModal("view", row)}
               >
                 <Icon path={mdiEye} size={1} />
               </IconButton>
             </Tooltip>
             <Tooltip title="Edit Role">
-              <IconButton color="secondary" onClick={() => handleEdit(row)}>
+              <IconButton
+                color="secondary"
+                onClick={() => handleOpenModal("update", row)}
+              >
                 <Icon path={mdiPencil} size={1} />
               </IconButton>
             </Tooltip>
             <Tooltip title="Delete Role">
-              <IconButton color="error" onClick={() => handleDelete(row)}>
+              <IconButton
+                color="error"
+                loading={
+                  deleteRoleMutation.isPending && openModal.data?.id === row?.id
+                }
+                onClick={() => handleDelete(row)}
+              >
                 <Icon path={mdiDelete} size={1} />
               </IconButton>
             </Tooltip>
@@ -111,34 +111,63 @@ export default function UserRoles() {
     },
   ];
 
-  const handleOpenModal = useCallback(({ type, data }) => {
+  const handleOpenModal = useCallback((type, data) => {
+    console.log(type, data);
     setOpenModal({ type, data });
   }, []);
 
   const handleCloseModal = useCallback(() => {
     setOpenModal({ type: "", data: null });
   }, []);
-  const handleEdit = (row) => {
-    console.log(row);
-  };
+
   const handleDelete = (row) => {
     console.log(row);
+    handleOpenModal("delete", row);
   };
+
+  const confirmDelete = useCallback(() => {
+    console.log("confirm delete", openModal.data);
+    deleteRoleMutation.mutate(openModal.data, {
+      onSuccess: () => handleCloseModal(),
+    });
+  }, [openModal]);
 
   return (
     <Fragment>
+      <ConfirmDialog
+        open={openModal.type === "delete"}
+        title="Delete role?"
+        content="Do you wish to delete this role?"
+        handleClose={handleCloseModal}
+        onConfirm={confirmDelete}
+        loading={deleteRoleMutation.isPending}
+      />
+      <CustomGlobalSnackbar />
       <MediumModal
         title={openModal?.data?.name}
-        open={!!openModal.data}
+        open={!!openModal.type && openModal.type !== "delete"}
         handleClose={handleCloseModal}
       >
-        {openModal.type === "view" && (
-          <RolePermissions permissions={permissions} />
-        )}
+        {openModal.type === "view" ? (
+          <RolePermissions
+            permissions={permissions}
+            data={openModal.data}
+            handleClose={handleCloseModal}
+          />
+        ) : openModal.type === "create" || openModal.type === "update" ? (
+          <CreateUpdateRole
+            data={openModal.data}
+            handleCloseModal={handleCloseModal}
+          />
+        ) : null}
       </MediumModal>
       <Box sx={{ mb: 1, display: "flex", gap: 1, justifyContent: "flex-end" }}>
-        <Button variant="outlined">Add Roles</Button>
-        <Button variant="outlined">Add Permission</Button>
+        <Button
+          variant="outlined"
+          onClick={() => handleOpenModal("create", { name: "create role" })}
+        >
+          Add Roles
+        </Button>
       </Box>
       <Box>
         <Datatable
