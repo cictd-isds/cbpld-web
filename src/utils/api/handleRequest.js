@@ -1,4 +1,3 @@
-import axios from "axios";
 import { queryClient } from "../queryClient";
 
 export const handleRequest = async (requestFn, invalidateKeys = []) => {
