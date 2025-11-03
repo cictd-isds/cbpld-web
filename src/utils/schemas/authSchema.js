@@ -28,6 +28,17 @@ export const registerSchema = Yup.object({
     .oneOf([Yup.ref("password"), null], "Passwords must match")
     .required("Confirm Password is required"),
 });
+
+export const userProfileSchema = Yup.object({
+  name: Yup.string()
+    .min(2, "Name must be at least 2 characters")
+    .required("Name is required"),
+
+  email: Yup.string()
+    .email("Invalid email format")
+    .required("Email is required"),
+});
+
 export const forgotPassSchema = Yup.object({
   email: Yup.string().email("Invalid email").required("Email is required"),
   firstName: Yup.string().required("First name is required"),

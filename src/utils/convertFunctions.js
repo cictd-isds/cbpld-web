@@ -7,3 +7,10 @@ export function formatDateToYMD(dateString) {
 
   return `${year}-${month}-${day}`;
 }
+
+function formatDateToYMD2(dateString) {
+  const date = new Date(dateString);
+  return new Intl.DateTimeFormat("en-CA").format(date); // "yyyy-mm-dd"
+}
+
+// converts "Tue Nov 04 2025 00:00:00 GMT+0800 (Philippine Standard Time)" to 2025-11-04
