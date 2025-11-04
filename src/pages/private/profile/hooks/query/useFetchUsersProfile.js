@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { USERS_PROFILE } from "../../../../../utils/queryKeys";
+import { USER_PROFILE } from "../../../../../utils/queryKeys";
 import API from "../../../../../utils/api";
 
 function useFetchUsersProfile() {
@@ -10,7 +10,7 @@ function useFetchUsersProfile() {
   };
   return useQuery({
     queryFn: fetchUsers,
-    queryKey: [USERS_PROFILE],
+    queryKey: [USER_PROFILE],
   });
 }
 export default useFetchUsersProfile;
