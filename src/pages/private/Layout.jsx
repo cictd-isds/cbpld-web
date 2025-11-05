@@ -14,15 +14,12 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Outlet, useNavigate } from "react-router";
 import MuiSwitch from "../../components/common/MuiSwitch";
-import { Badge, Grid, ListItemIcon } from "@mui/material";
+import { Badge, ListItemIcon } from "@mui/material";
 import { allRoutes } from "../../routes/routeList";
 import SideNavRecursive from "../../routes/SideNavRecursive";
 import DeptLogo from "../../assets/department_logo.png";
-import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import Tooltip from "@mui/material/Tooltip";
-import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import Icon from "@mdi/react";
@@ -31,6 +28,8 @@ import { useBoundStore } from "../../store/store";
 import { yellow } from "@mui/material/colors";
 import CustomBreadCrumbs from "../../components/common/CustomBreadCrumbs";
 import useAuth from "../public/mutation/useAuth";
+import CustomUserAvatar from "../../components/common/CustomUserAvatar";
+
 const drawerWidth = 350;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -95,6 +94,7 @@ export default function Layout() {
   const [anchorElAccount, setAnchorElAccount] = React.useState(null);
   const openAccount = Boolean(anchorElAccount);
   const navigate = useNavigate();
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -163,7 +163,7 @@ export default function Layout() {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>J</Avatar>
+            <CustomUserAvatar size={32} />
           </IconButton>
           <Menu
             anchorEl={anchorElAccount}
@@ -203,7 +203,8 @@ export default function Layout() {
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
           >
             <MenuItem onClick={() => handleProfileNav()}>
-              <Avatar /> Profile
+              <CustomUserAvatar size={32} />
+              Profile
             </MenuItem>
             <Divider />
             <MenuItem onClick={handleCloseAccount}>
@@ -214,7 +215,6 @@ export default function Layout() {
             </MenuItem>
             <MenuItem
               onClick={() => {
-                // console.log("logout");
                 logoutMutation.mutate();
                 navigate("/");
               }}

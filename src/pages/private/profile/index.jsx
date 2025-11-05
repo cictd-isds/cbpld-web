@@ -1,28 +1,28 @@
-import DynamicForm from "../../../components/DynamicForm ";
 import {
   Grid,
   Box,
   Typography,
-  Avatar,
-  useMediaQuery,
   Paper,
   Button,
+  Badge,
+  Menu,
+  MenuItem,
+  CircularProgress,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from "@mui/material";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import { useTheme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
-import useFetchUsersProfile from "./hooks/query/useFetchUsersProfile";
 import ProfileTab from "./ProfileTab";
-
-const userToEdit = {
-  firstName: "Maria",
-  lastName: "Santos",
-  gender: "Female",
-  department: "HR",
-  position: "Manager",
-  // etc...
-};
+import useQueryUserData from "./hooks/query/useQueryUserData";
+import { useMutateUserProfile } from "./hooks/mutation/useMutateUserProfile";
+import CustomUserAvatar from "../../../components/common/CustomUserAvatar";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import ChangePassForm from "./ChangePassForm";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import LogoutAll from "./LogoutAll";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -47,29 +47,47 @@ function a11yProps(index) {
   };
 }
 function Profile() {
-  const { data: userData, isLoading: userLoading } = useFetchUsersProfile();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const { userDataQuery, userPhotoQuery } = useQueryUserData();
+  useMutateUserProfile();
+  const { uploadProfilePhotoMutation, deleteProfilePhotoMutation } =
+    useMutateUserProfile();
+  const photoLoading = userPhotoQuery.isFetching;
+  const isUploading = uploadProfilePhotoMutation.isPending;
   const [profileData, setProfileData] = useState(null);
+  const userData = userDataQuery.data;
 
   useEffect(() => {
-    console.log("userData", userData);
+    // console.log("userData", userData);
     setProfileData(userData);
   }, [userData]);
 
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  // Example user data
-  const user = {
-    name: "Juan Dela Cruz",
-    position: "Software Engineer",
-    department: "IT Department",
-    email: "juan.delacruz@example.com",
-    contact: "09123456789",
-    image: "https://via.placeholder.com/200x200.png?text=Profile+Image",
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file && userData?.id) {
+      uploadProfilePhotoMutation.mutate({ userId: userData.id, file });
+    }
+    handleClose();
+  };
+
+  const handleDeletePhoto = () => {
+    if (userData?.img_id) {
+      deleteProfilePhotoMutation.mutate({ fileId: userData.img_id });
+    }
+    handleClose();
   };
 
   return (
@@ -94,15 +112,13 @@ function Profile() {
         <Grid
           item
           size={{ xs: 12, sm: 12, md: 2 }}
+          minWidth={"300px"}
           sx={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            // borderRight: {
-            //   sm: "1px solid #e0e0e0",
-            //   xs: "none",
-            // },
+
             mb: { xs: 2, sm: 0 },
           }}
         >
@@ -115,31 +131,86 @@ function Profile() {
               alignItems: "center",
             }}
           >
-            <Avatar
-              src={user.image}
-              alt={profileData?.name}
-              sx={{
-                width: "80%", // 👈 scales to 50% of the container width
-                height: "auto", // maintain aspect ratio (optional)
-                aspectRatio: "1 / 1", // ensures it stays a circle
-                mb: 2,
+            <Badge
+              color="primary"
+              overlap="circular"
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
               }}
-            />
+              badgeContent={
+                <>
+                  <Button
+                    id="basic-button"
+                    aria-controls={open ? "basic-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined}
+                    onClick={handleClick}
+                    sx={{ borderRadius: "50%", width: 40, height: 40 }}
+                    loading={photoLoading || isUploading}
+                    loadingIndicator={
+                      <CircularProgress size={20} sx={{ color: "white" }} /> // 👈 custom color
+                    }
+                  >
+                    {photoLoading || isUploading ? (
+                      ""
+                    ) : (
+                      <MoreHorizIcon sx={{ color: "white" }} />
+                    )}
+                  </Button>
+                  <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    slotProps={{
+                      list: {
+                        "aria-labelledby": "basic-button",
+                      },
+                    }}
+                  >
+                    <MenuItem component="label">
+                      Upload Photo
+                      <input
+                        type="file"
+                        hidden
+                        accept="image/*"
+                        onChange={handleFileChange}
+                      />
+                    </MenuItem>
+                    <MenuItem onClick={handleDeletePhoto}>
+                      Remove Photo
+                    </MenuItem>
+                  </Menu>
+                </>
+              }
+              sx={{
+                "& .MuiBadge-badge": {
+                  color: "#fff",
+                  borderRadius: "50%",
+                  border: "2px solid #fff",
+                  width: 40,
+                  height: 40,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  cursor: "pointer",
+                  boxShadow: 2,
+                  overflow: "hidden",
+                },
+              }}
+            >
+              <CustomUserAvatar size={150} />
+            </Badge>
             <Typography variant="h6">{profileData?.name}</Typography>
             <Typography variant="body2" color="text.secondary">
-              {user.position}
+              {profileData?.email}
             </Typography>
           </Paper>
         </Grid>
 
         {/* Right Section - User Info */}
-        <Grid
-          item
-          size="grow"
-          // sx={{
-          //   pl: { sm: 3, xs: 0 },
-          // }}
-        >
+        <Grid item size="grow">
           <Paper sx={{ padding: 2 }}>
             <Box sx={{ width: "100%" }}>
               <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -159,38 +230,42 @@ function Profile() {
                 </Tabs>
               </Box>
               <CustomTabPanel value={value} index={0}>
-                {/* <DynamicForm editData={userToEdit} /> */}
-                <ProfileTab prevData={profileData} />
+                <ProfileTab />
               </CustomTabPanel>
               <CustomTabPanel value={value} index={1}>
-                <Button variant="contained">Logout all devices</Button>
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1-content"
+                    id="panel1-header"
+                  >
+                    <Typography component="span">Account Management</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <LogoutAll />
+                  </AccordionDetails>
+                </Accordion>
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1-content"
+                    id="panel1-header"
+                  >
+                    <Typography component="span">
+                      Password Management
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <ChangePassForm />
+                  </AccordionDetails>
+                </Accordion>
               </CustomTabPanel>
             </Box>
-            {/* <Box
-              sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2 }}
-            >
-              <InfoItem label="Department" value={user.department} />
-              <InfoItem label="Email" value={user.email} />
-              <InfoItem label="Contact Number" value={user.contact} />
-              <InfoItem label="Country" value="Philippines" />
-            </Box> */}
           </Paper>
         </Grid>
       </Grid>
     </Box>
   );
 }
-
-// Reusable Info display component
-const InfoItem = ({ label, value }) => (
-  <Box>
-    <Typography variant="body2" color="text.secondary">
-      {label}
-    </Typography>
-    <Typography variant="body1" sx={{ fontWeight: 500 }}>
-      {value || "-"}
-    </Typography>
-  </Box>
-);
 
 export default Profile;
