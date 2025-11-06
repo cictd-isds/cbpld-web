@@ -16,9 +16,10 @@ import Faq from "./Faq";
 import { useBoundStore } from "../../store/store";
 import Register from "./Register";
 import LoginForm from "./LoginForm";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import ForgotPassForm from "./ForgotPassForm";
 import CustomModal from "../../components/common/CustomModal";
+import ResetPasswordForm from "./ResetPasswordForm";
 
 const topNav = [
   {
@@ -127,9 +128,18 @@ function PublicLayout() {
 export default PublicLayout;
 
 function LoginCard() {
+  const [searchParams] = useSearchParams();
+  const tokenReset = searchParams.get("token");
+  const emailReset = searchParams.get("email");
   const [isOpenRegister, setIsOpenRegister] = useState(false);
   const [isOpenForgotPass, setIsOpenForgotPass] = useState(false);
+  const [isOpenResetPass, setIsOpenResetPass] = useState(false);
 
+  useEffect(() => {
+    tokenReset && emailReset
+      ? setIsOpenResetPass(true)
+      : setIsOpenResetPass(false);
+  }, []);
   return (
     <Card
       elavation={5}
@@ -145,6 +155,18 @@ function LoginCard() {
         // backgroundColor: "#FFF",
       }}
     >
+      <CustomModal
+        open={isOpenResetPass}
+        onClose={() => setIsOpenResetPass(false)}
+        title="Reset Password"
+        size="small"
+      >
+        <ResetPasswordForm
+          onClose={() => setIsOpenRegister(false)}
+          token={tokenReset}
+          email={emailReset}
+        />
+      </CustomModal>
       <CustomModal
         open={isOpenRegister}
         onClose={() => setIsOpenRegister(false)}

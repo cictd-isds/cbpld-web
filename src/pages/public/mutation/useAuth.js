@@ -12,6 +12,7 @@ function useAuth() {
   const setPermissions = useBoundStore((state) => state.setPermissions);
   const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
 
+  ////API
   const register = async (data) => {
     const response = await handleRequest(() =>
       API.post("/api/auth/register", data)
@@ -30,6 +31,18 @@ function useAuth() {
     const response = await API.post("api/auth/logout");
     return response.data;
   };
+
+  const forgotPassword = async (payload) => {
+    const { data } = await API.post("api/auth/password/forgot", payload);
+    return data;
+  };
+
+  const resetPassword = async (payload) => {
+    const { data } = await API.post("api/auth/password/reset", payload);
+    return data;
+  };
+
+  ////Mutations
 
   const fakeForgotPasswordRequest = (data) => {
     return new Promise((resolve, reject) => {
@@ -76,6 +89,7 @@ function useAuth() {
       showSnackbar("error", error.message || "Registration failed!");
     },
   });
+
   const loginMutation = useMutation({
     mutationFn: login,
     onSuccess: (data) => {
@@ -95,14 +109,20 @@ function useAuth() {
       showSnackbar("error", error.message || "Login failed!");
     },
   });
+
   const forgotPassMutation = useMutation({
-    mutationFn: fakeForgotPasswordRequest,
+    mutationFn: forgotPassword,
   });
+  const resetPassMutation = useMutation({
+    mutationFn: resetPassword,
+  });
+
   return {
     registerMutation,
     loginMutation,
     logoutMutation,
     forgotPassMutation,
+    resetPassMutation,
   };
 }
 

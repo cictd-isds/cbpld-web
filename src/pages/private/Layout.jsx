@@ -234,6 +234,9 @@ export default function Layout() {
           "& .MuiDrawer-paper": {
             width: drawerWidth,
             boxSizing: "border-box",
+            display: "flex",
+            flexDirection: "column", // 👈 make layout vertical
+            justifyContent: "space-between", // 👈 top (nav) + bottom (user info)
           },
         }}
         variant="persistent"
@@ -263,14 +266,119 @@ export default function Layout() {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>
-          <SideNavRecursive
-            navs={allRoutes}
-            parentPath=""
-            openNodes={openNodes}
-            setOpenNodes={setOpenNodes}
-          />
-        </List>
+        <Box sx={{ flexGrow: 1, overflowY: "auto" }}>
+          <List>
+            <SideNavRecursive
+              navs={allRoutes}
+              parentPath=""
+              openNodes={openNodes}
+              setOpenNodes={setOpenNodes}
+            />
+          </List>
+        </Box>
+        <Box
+          sx={{
+            p: 2,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 2,
+            borderTop: "1px solid rgba(0,0,0,0.12)",
+          }}
+        >
+          <Box
+            sx={{
+              height: 40,
+              width: 40,
+              borderRadius: "50%",
+              overflow: "hidden",
+              flexShrink: 0,
+            }}
+          >
+            <CustomUserAvatar size={40} />
+          </Box>
+          <Box sx={{ overflow: "hidden" }}>
+            <Typography variant="body1" fontWeight="bold" noWrap>
+              {"User Name"}
+            </Typography>
+            <Typography variant="body2" color="text.secondary" noWrap>
+              {"user@example.com"}
+            </Typography>
+          </Box>
+
+          <Box>
+            <IconButton
+              onClick={handleClickAccount}
+              size="small"
+              sx={{ ml: 2 }}
+              aria-controls={open ? "account-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+            >
+              <CustomUserAvatar size={32} />
+            </IconButton>
+            <Menu
+              anchorEl={anchorElAccount}
+              id="account-menu"
+              open={openAccount}
+              onClose={handleCloseAccount}
+              onClick={handleCloseAccount}
+              slotProps={{
+                paper: {
+                  elevation: 0,
+                  sx: {
+                    overflow: "visible",
+                    filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                    mt: 1.5,
+                    "& .MuiAvatar-root": {
+                      width: 32,
+                      height: 32,
+                      ml: -0.5,
+                      mr: 1,
+                    },
+                    "&::before": {
+                      content: '""',
+                      display: "block",
+                      position: "absolute",
+                      top: 0,
+                      right: 14,
+                      width: 10,
+                      height: 10,
+                      bgcolor: "background.paper",
+                      transform: "translateY(-50%) rotate(45deg)",
+                      zIndex: 0,
+                    },
+                  },
+                },
+              }}
+              transformOrigin={{ horizontal: "right", vertical: "top" }}
+              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+            >
+              <MenuItem onClick={() => handleProfileNav()}>
+                <CustomUserAvatar size={32} />
+                Profile
+              </MenuItem>
+              <Divider />
+              <MenuItem onClick={handleCloseAccount}>
+                <ListItemIcon>
+                  <Settings fontSize="small" />
+                </ListItemIcon>
+                Settings
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  logoutMutation.mutate();
+                  navigate("/");
+                }}
+              >
+                <ListItemIcon>
+                  <Logout fontSize="small" />
+                </ListItemIcon>
+                Logout
+              </MenuItem>
+            </Menu>
+          </Box>
+        </Box>
       </Drawer>
       <Main
         open={open}

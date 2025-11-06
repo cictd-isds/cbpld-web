@@ -68,7 +68,7 @@ export default function ForgotPassForm() {
         error={!!errors.email}
         helperText={errors.email?.message}
       />
-      <TextField
+      {/* <TextField
         label="First Name"
         {...register("firstName")}
         error={!!errors.firstName}
@@ -85,7 +85,7 @@ export default function ForgotPassForm() {
         {...register("birthday")}
         error={!!errors.birthday}
         helperText={errors.birthday?.message}
-      />
+      /> */}
 
       <Button
         variant="contained"
