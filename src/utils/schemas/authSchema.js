@@ -55,10 +55,12 @@ export const userProfileSchema = Yup.object({
     .required("Cellphone number is required"),
 });
 export const changePassSchema = Yup.object({
+  old_password: Yup.string()
+    .min(PASSWORD_CHAR, `Password must be at least ${PASSWORD_CHAR} characters`)
+    .required("Old password is required"),
   password: Yup.string()
     .min(PASSWORD_CHAR, `Password must be at least ${PASSWORD_CHAR} characters`)
     .required("Password is required"),
-
   password_confirmation: Yup.string()
     .oneOf([Yup.ref("password"), null], "Passwords must match")
     .required("Confirm Password is required"),

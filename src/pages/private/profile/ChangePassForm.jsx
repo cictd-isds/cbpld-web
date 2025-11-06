@@ -9,6 +9,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const schema = changePassSchema;
 export default function ChangePassForm() {
+  const [showOldPassword, setShowOldPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const { putProfileMutation } = useMutateUserProfile();
@@ -39,6 +40,26 @@ export default function ChangePassForm() {
         padding: 5,
       }}
     >
+      <TextField
+        type={showOldPassword ? "text" : "password"}
+        label="Old Password"
+        {...register("old_password")}
+        error={!!errors.old_password}
+        helperText={errors.old_password?.message}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton
+                onClick={() => setShowOldPassword((prev) => !prev)}
+                edge="end"
+              >
+                {showOldPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+      />
+
       <TextField
         type={showPassword ? "text" : "password"}
         label="New Password"

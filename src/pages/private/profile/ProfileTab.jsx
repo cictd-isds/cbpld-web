@@ -33,15 +33,11 @@ export default function ProfileTab() {
 
   const submit = handleSubmit((data) => {
     console.log(data);
+    const { img_path, ...rest } = data;
     putProfileMutation.mutate(
       {
-        name: data.name,
-        email: data.email,
-        profile: {
-          birth_date: formatDateToYMD(data.birth_date),
-          sex: data.sex,
-          cellphone_no: data.cellphone_no,
-        },
+        ...rest,
+        birth_date: formatDateToYMD(data.birth_date),
       },
       {
         onSuccess: () => {
