@@ -3,14 +3,13 @@ import API from "../../../utils/api/apiClient";
 import { handleRequest } from "../../../utils/api/handleRequest";
 import { useNavigate } from "react-router";
 import { useBoundStore } from "../../../store/store";
-import { useSnackbarStore } from "../../../store/snackbarStore";
 
 function useAuth() {
   const navigate = useNavigate();
   const setUserAndToken = useBoundStore((state) => state.setUserAndToken);
   const logout = useBoundStore((state) => state.logout);
   const setPermissions = useBoundStore((state) => state.setPermissions);
-  const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
+  const { setPending, setSuccess, setError, clearMutation } = useBoundStore();
 
   ////API
   const register = async (data) => {
@@ -43,29 +42,10 @@ function useAuth() {
   };
 
   ////Mutations
-
-  const fakeForgotPasswordRequest = (data) => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const { email, firstName, lastName, birthday } = data;
-
-        if (
-          email === "123@example.com" &&
-          firstName === "123" &&
-          lastName === "123" &&
-          birthday === "123"
-        ) {
-          resolve({ message: "Password reset successful!" });
-        } else {
-          reject(new Error("Invalid user information. Please try again."));
-        }
-      }, 1500);
-    });
-  };
-
   const logoutMutation = useMutation({
     mutationFn: () => logoutApi,
     onSuccess: () => {
+      setSuccess({ message: "Logout successful." });
       logout();
     },
     onError: (error) => {
@@ -75,39 +55,33 @@ function useAuth() {
 
   const registerMutation = useMutation({
     mutationFn: register,
-    onSuccess: (data) => {
-      showSnackbar("success", "Registration successful!");
+    onSuccess: () => {
+      setSuccess({ message: "Registration successful." });
     },
     onError: (error) => {
-      if (error.status === 422) {
-        showSnackbar(
-          "error",
-          error.response.data.message || "Registration failed!"
-        );
-        return;
-      }
-      showSnackbar("error", error.message || "Registration failed!");
+      setError(error.response.data);
+      console.log("onmerror", error);
     },
+    onSettled: () => setPending(false),
   });
 
   const loginMutation = useMutation({
     mutationFn: login,
+    onMutate: () => {
+      setPending(true);
+    },
     onSuccess: (data) => {
+      setSuccess({ message: "Login successfully." });
       setUserAndToken({
         user: data.user,
         token: data.token,
       });
       setPermissions(data?.permissions);
-      showSnackbar("success", "Login successful!");
       navigate("/home");
     },
-    onError: (error) => {
-      if (error.status === 422) {
-        showSnackbar("error", error.response.data.message || "Login failed!");
-        return;
-      }
-      showSnackbar("error", error.message || "Login failed!");
-    },
+    onError: (error) =>
+      setError({ message: error.response.data.errors.email[0] }),
+    onSettled: () => setPending(false),
   });
 
   const forgotPassMutation = useMutation({
@@ -115,6 +89,9 @@ function useAuth() {
   });
   const resetPassMutation = useMutation({
     mutationFn: resetPassword,
+    onSuccess: () => {
+      setSuccess({ message: "Password reset successful." });
+    },
   });
 
   return {

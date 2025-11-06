@@ -4,7 +4,6 @@ import { Box, TextField, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import { forgotPassSchema } from "../../utils/schemas/authSchema";
 import useAuth from "./mutation/useAuth";
-import SmallModal from "../../components/common/modals/SmallModal";
 import CustomAlert from "../../components/common/CustomAlert";
 import { useState } from "react";
 
@@ -68,25 +67,6 @@ export default function ForgotPassForm() {
         error={!!errors.email}
         helperText={errors.email?.message}
       />
-      {/* <TextField
-        label="First Name"
-        {...register("firstName")}
-        error={!!errors.firstName}
-        helperText={errors.firstName?.message}
-      />
-      <TextField
-        label="Last Name"
-        {...register("lastName")}
-        error={!!errors.lastName}
-        helperText={errors.lastName?.message}
-      />
-      <TextField
-        label="Birthday (MM/DD/YYYY)"
-        {...register("birthday")}
-        error={!!errors.birthday}
-        helperText={errors.birthday?.message}
-      /> */}
-
       <Button
         variant="contained"
         type="submit"

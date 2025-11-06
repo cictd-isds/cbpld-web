@@ -1,22 +1,15 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import {
-  Box,
-  IconButton,
-  InputAdornment,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, IconButton, InputAdornment, TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import useAuth from "./mutation/useAuth";
 import CustomAlert from "../../components/common/CustomAlert";
 import { useState } from "react";
 import { resetPassSchema } from "../../utils/schemas/authSchema";
-import { useSearchParams } from "react-router";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const schema = resetPassSchema;
-export default function ResetPasswordForm({ token, email }) {
+export default function ResetPasswordForm({ token, email, onClose }) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
@@ -40,18 +33,13 @@ export default function ResetPasswordForm({ token, email }) {
     resetPassMutation.mutate(
       { ...data, token, email },
       {
-        onSuccess: (response) => {
-          setAlert({
-            open: true,
-            severity: "success",
-            message: response.message, // from your fake request
-          });
-        },
+        onSuccess: () => onClose(),
         onError: (error) => {
+          console.log(error);
           setAlert({
             open: true,
             severity: "error",
-            message: error.message, // from reject(new Error(...))
+            message: error.response.data.message, // from reject(new Error(...))
           });
         },
       }

@@ -9,19 +9,17 @@ export default function useQueryUserData() {
   };
 
   const fetchPhoto = async () => {
-    const userData = await API.get(`/api/v1/users/profile`);
-    if (!!userData.data.img_id) {
-      const response = await API.get(
-        `/api/v1/files/${userData.data.img_id}/inline`,
-        {
-          responseType: "blob",
-        }
-      );
-      const blobUrl = URL.createObjectURL(response.data);
-      return blobUrl;
-    } else {
-      return false;
-    }
+    // const userData = await API.get(`/api/v1/users/profile`);
+    // if (!!userData.data.img_id) {
+    const response = await API.get(`/api/v1/users/profile/photo/inline`, {
+      responseType: "blob",
+    });
+    console.log("fetchphotoresponse", response);
+    // const blobUrl = URL.createObjectURL(response.data);
+    // return blobUrl;
+    // } else {
+    //   return false;
+    // }
   };
 
   const userPhotoQuery = useQuery({

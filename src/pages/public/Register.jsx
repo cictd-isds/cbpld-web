@@ -24,8 +24,9 @@ export default function Register({ onClose }) {
 
   const submit = handleSubmit((data) => {
     console.log(data);
-    registerMutation.mutate(data);
-    onClose();
+    registerMutation.mutate(data, {
+      onSuccess: () => onClose(),
+    });
   });
 
   return (

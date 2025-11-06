@@ -162,7 +162,7 @@ function LoginCard() {
         size="small"
       >
         <ResetPasswordForm
-          onClose={() => setIsOpenRegister(false)}
+          onClose={() => setIsOpenResetPass(false)}
           token={tokenReset}
           email={emailReset}
         />
