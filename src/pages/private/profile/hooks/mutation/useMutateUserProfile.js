@@ -6,8 +6,11 @@ import { USER_PHOTO, USER_PROFILE } from "../../../../../utils/queryKeys";
 import { useBoundStore } from "../../../../../store/store";
 
 export function useMutateUserProfile() {
+  const { setPending, setSuccess, setError, clearMutation } = useBoundStore();
   const showSnackbar = useSnackbarStore((state) => state.showSnackbar);
   const logout = useBoundStore((state) => state.logout);
+  const updateUser = useBoundStore((state) => state.updateUser);
+  const currentUser = useBoundStore((state) => state.user);
 
   const queryClient = useQueryClient();
 
@@ -34,9 +37,10 @@ export function useMutateUserProfile() {
 
     return data;
   };
-  const deletePhoto = async ({ fileId }) => {
+  const deletePhoto = async () => {
+    const userID = currentUser.id;
     const response = await handleRequest(() =>
-      API.delete(`/api/v1/files/${fileId}`)
+      API.delete(`/api/v1/users/profile/photo/${userID}`)
     );
     return response.data;
   };
@@ -53,35 +57,32 @@ export function useMutateUserProfile() {
   const putProfileMutation = useMutation({
     mutationFn: putProfile,
     onSuccess: (data) => {
+      updateUser(data);
       queryClient.invalidateQueries([USER_PROFILE]);
-      showSnackbar("success", "Login successful!");
+      setSuccess({ message: "Update successfully." });
     },
     onError: (error) => {
-      if (error.status === 422) {
-        showSnackbar("error", error.response.data.message || "Login failed!");
-        return;
-      }
-      showSnackbar("error", error.message || "Login failed!");
+      setError(error.response.data);
     },
   });
 
   const uploadProfilePhotoMutation = useMutation({
     mutationFn: uploadProfilePhoto,
     onSuccess: (data) => {
+      putProfileMutation.mutate({ img_path: data.path });
       queryClient.invalidateQueries([USER_PHOTO]);
-      showSnackbar("success", "Login successful!");
+      setSuccess({ message: "Profile photo successfully uploaded." });
     },
     onError: (error) => {
-      if (error.status === 422) {
-        showSnackbar("error", error.response.data.message || "Login failed!");
-        return;
-      }
-      showSnackbar("error", error.message || "Login failed!");
+      console.log(error);
+      setError(error.response.data);
     },
+    onSettled: () => setPending(false),
   });
   const deleteProfilePhotoMutation = useMutation({
     mutationFn: deletePhoto,
     onSuccess: (data) => {
+      updateUser({ img_path: null });
       queryClient.invalidateQueries([USER_PHOTO]);
       showSnackbar("success", "Login successful!");
     },

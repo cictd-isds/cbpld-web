@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { USER_PHOTO, USER_PROFILE } from "../../../../../utils/queryKeys";
 import API from "../../../../../utils/api";
+import { useBoundStore } from "../../../../../store/store";
 
 export default function useQueryUserData() {
   const fetchUsers = async () => {
@@ -9,17 +10,20 @@ export default function useQueryUserData() {
   };
 
   const fetchPhoto = async () => {
-    // const userData = await API.get(`/api/v1/users/profile`);
-    // if (!!userData.data.img_id) {
-    const response = await API.get(`/api/v1/users/profile/photo/inline`, {
-      responseType: "blob",
-    });
-    console.log("fetchphotoresponse", response);
-    // const blobUrl = URL.createObjectURL(response.data);
-    // return blobUrl;
-    // } else {
-    //   return false;
-    // }
+    const userStore = useBoundStore.getState().user;
+    if (!!userStore.img_path) {
+      console.log("fetchPhoto", userStore.img_path);
+      const response = await API.get(`/api/v1/users/profile/photo/inline`, {
+        responseType: "blob",
+        params: {
+          img_path: userStore.img_path,
+        },
+      });
+      const blobUrl = URL.createObjectURL(response.data);
+      return blobUrl;
+    } else {
+      return false;
+    }
   };
 
   const userPhotoQuery = useQuery({

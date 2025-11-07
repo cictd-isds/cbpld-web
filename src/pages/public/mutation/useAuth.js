@@ -60,7 +60,6 @@ function useAuth() {
     },
     onError: (error) => {
       setError(error.response.data);
-      console.log("onmerror", error);
     },
     onSettled: () => setPending(false),
   });

@@ -60,6 +60,10 @@ export const changePassSchema = Yup.object({
     .required("Old password is required"),
   password: Yup.string()
     .min(PASSWORD_CHAR, `Password must be at least ${PASSWORD_CHAR} characters`)
+    .notOneOf(
+      [Yup.ref("old_password")],
+      "New password must be different from old password"
+    )
     .required("Password is required"),
   password_confirmation: Yup.string()
     .oneOf([Yup.ref("password"), null], "Passwords must match")

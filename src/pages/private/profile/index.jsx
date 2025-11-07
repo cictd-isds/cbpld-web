@@ -84,9 +84,8 @@ function Profile() {
   };
 
   const handleDeletePhoto = () => {
-    if (userData?.img_id) {
-      deleteProfilePhotoMutation.mutate({ fileId: userData.img_id });
-    }
+    deleteProfilePhotoMutation.mutate();
+
     handleClose();
   };
 
