@@ -1,9 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { useForm } from "react-hook-form";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import Button from "@mui/material/Button";
-import useAuth from "./mutation/useAuth";
+import React, { Fragment, useEffect, useMemo, useState } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -19,10 +14,12 @@ import { useTheme } from "@mui/material/styles";
 import Home from "./Home";
 import Faq from "./Faq";
 import { useBoundStore } from "../../store/store";
-import ModalComponent from "../../components/common/ModalComponent";
 import Register from "./Register";
 import LoginForm from "./LoginForm";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
+import ForgotPassForm from "./ForgotPassForm";
+import CustomModal from "../../components/common/CustomModal";
+import ResetPasswordForm from "./ResetPasswordForm";
 
 const topNav = [
   {
@@ -131,8 +128,18 @@ function PublicLayout() {
 export default PublicLayout;
 
 function LoginCard() {
+  const [searchParams] = useSearchParams();
+  const tokenReset = searchParams.get("token");
+  const emailReset = searchParams.get("email");
   const [isOpenRegister, setIsOpenRegister] = useState(false);
+  const [isOpenForgotPass, setIsOpenForgotPass] = useState(false);
+  const [isOpenResetPass, setIsOpenResetPass] = useState(false);
 
+  useEffect(() => {
+    tokenReset && emailReset
+      ? setIsOpenResetPass(true)
+      : setIsOpenResetPass(false);
+  }, []);
   return (
     <Card
       elavation={5}
@@ -148,13 +155,26 @@ function LoginCard() {
         // backgroundColor: "#FFF",
       }}
     >
-      <ModalComponent
-        isOpen={isOpenRegister}
+      <CustomModal
+        open={isOpenResetPass}
+        onClose={() => setIsOpenResetPass(false)}
+        title="Reset Password"
+        size="small"
+      >
+        <ResetPasswordForm
+          onClose={() => setIsOpenResetPass(false)}
+          token={tokenReset}
+          email={emailReset}
+        />
+      </CustomModal>
+      <CustomModal
+        open={isOpenRegister}
         onClose={() => setIsOpenRegister(false)}
-        sx={{ height: "80vh", overflowY: "scroll" }}
+        title="Register"
+        size="small"
       >
         <Register onClose={() => setIsOpenRegister(false)} />
-      </ModalComponent>
+      </CustomModal>
       <CardMedia
         sx={{
           height: 140,
@@ -179,8 +199,24 @@ function LoginCard() {
         >
           Register
         </Typography>
-        <Typography color="error">Forgot password</Typography>
+        <Typography
+          color="error.main"
+          sx={{ cursor: "pointer" }}
+          onClick={() => setIsOpenForgotPass(true)}
+        >
+          Forgot Password?
+        </Typography>
       </CardActions>
+      <Fragment>
+        <CustomModal
+          open={isOpenForgotPass}
+          onClose={() => setIsOpenForgotPass(false)}
+          title="Forgot Password"
+          size="small"
+        >
+          <ForgotPassForm />
+        </CustomModal>
+      </Fragment>
     </Card>
   );
 }

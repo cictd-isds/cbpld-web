@@ -5,6 +5,7 @@ import { getTheme } from "./utils/theme/theme";
 import { useBoundStore } from "./store/store";
 import { useMemo } from "react";
 import RouteProvider from "./routes/RouteProvider";
+import CustomGlobalSnackbar from "./components/common/CustomGlobalSnackbar";
 
 function App() {
   const mode = useBoundStore((state) => state.mode);
@@ -13,6 +14,8 @@ function App() {
     <ReactQueryProvider>
       <ThemeProvider theme={theme}>
         <RouteProvider />
+        {/* <CustomSnackbar /> */}
+        <CustomGlobalSnackbar />
       </ThemeProvider>
     </ReactQueryProvider>
   );

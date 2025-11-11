@@ -142,7 +142,7 @@ export default function UserRoles() {
         onConfirm={confirmDelete}
         loading={deleteRoleMutation.isPending}
       />
-      <CustomGlobalSnackbar />
+      {/* <CustomGlobalSnackbar /> */}
       <MediumModal
         title={openModal?.data?.name}
         open={!!openModal.type && openModal.type !== "delete"}

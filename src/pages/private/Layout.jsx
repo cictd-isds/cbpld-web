@@ -14,15 +14,12 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Outlet, useNavigate } from "react-router";
 import MuiSwitch from "../../components/common/MuiSwitch";
-import { Badge, Grid, ListItemIcon } from "@mui/material";
+import { Badge, ListItemIcon } from "@mui/material";
 import { allRoutes } from "../../routes/routeList";
 import SideNavRecursive from "../../routes/SideNavRecursive";
 import DeptLogo from "../../assets/department_logo.png";
-import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import Tooltip from "@mui/material/Tooltip";
-import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import Icon from "@mdi/react";
@@ -31,6 +28,8 @@ import { useBoundStore } from "../../store/store";
 import { yellow } from "@mui/material/colors";
 import CustomBreadCrumbs from "../../components/common/CustomBreadCrumbs";
 import useAuth from "../public/mutation/useAuth";
+import CustomUserAvatar from "../../components/common/CustomUserAvatar";
+
 const drawerWidth = 350;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -95,6 +94,7 @@ export default function Layout() {
   const [anchorElAccount, setAnchorElAccount] = React.useState(null);
   const openAccount = Boolean(anchorElAccount);
   const navigate = useNavigate();
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -163,7 +163,7 @@ export default function Layout() {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>J</Avatar>
+            <CustomUserAvatar size={32} />
           </IconButton>
           <Menu
             anchorEl={anchorElAccount}
@@ -203,7 +203,8 @@ export default function Layout() {
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
           >
             <MenuItem onClick={() => handleProfileNav()}>
-              <Avatar /> Profile
+              <CustomUserAvatar size={32} />
+              Profile
             </MenuItem>
             <Divider />
             <MenuItem onClick={handleCloseAccount}>
@@ -214,7 +215,6 @@ export default function Layout() {
             </MenuItem>
             <MenuItem
               onClick={() => {
-                // console.log("logout");
                 logoutMutation.mutate();
                 navigate("/");
               }}
@@ -234,6 +234,9 @@ export default function Layout() {
           "& .MuiDrawer-paper": {
             width: drawerWidth,
             boxSizing: "border-box",
+            display: "flex",
+            flexDirection: "column", // 👈 make layout vertical
+            justifyContent: "space-between", // 👈 top (nav) + bottom (user info)
           },
         }}
         variant="persistent"
@@ -263,14 +266,119 @@ export default function Layout() {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>
-          <SideNavRecursive
-            navs={allRoutes}
-            parentPath=""
-            openNodes={openNodes}
-            setOpenNodes={setOpenNodes}
-          />
-        </List>
+        <Box sx={{ flexGrow: 1, overflowY: "auto" }}>
+          <List>
+            <SideNavRecursive
+              navs={allRoutes}
+              parentPath=""
+              openNodes={openNodes}
+              setOpenNodes={setOpenNodes}
+            />
+          </List>
+        </Box>
+        <Box
+          sx={{
+            p: 2,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 2,
+            borderTop: "1px solid rgba(0,0,0,0.12)",
+          }}
+        >
+          <Box
+            sx={{
+              height: 40,
+              width: 40,
+              borderRadius: "50%",
+              overflow: "hidden",
+              flexShrink: 0,
+            }}
+          >
+            <CustomUserAvatar size={40} />
+          </Box>
+          <Box sx={{ overflow: "hidden" }}>
+            <Typography variant="body1" fontWeight="bold" noWrap>
+              {"User Name"}
+            </Typography>
+            <Typography variant="body2" color="text.secondary" noWrap>
+              {"user@example.com"}
+            </Typography>
+          </Box>
+
+          <Box>
+            <IconButton
+              onClick={handleClickAccount}
+              size="small"
+              sx={{ ml: 2 }}
+              aria-controls={open ? "account-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+            >
+              <CustomUserAvatar size={32} />
+            </IconButton>
+            <Menu
+              anchorEl={anchorElAccount}
+              id="account-menu"
+              open={openAccount}
+              onClose={handleCloseAccount}
+              onClick={handleCloseAccount}
+              slotProps={{
+                paper: {
+                  elevation: 0,
+                  sx: {
+                    overflow: "visible",
+                    filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                    mt: 1.5,
+                    "& .MuiAvatar-root": {
+                      width: 32,
+                      height: 32,
+                      ml: -0.5,
+                      mr: 1,
+                    },
+                    "&::before": {
+                      content: '""',
+                      display: "block",
+                      position: "absolute",
+                      top: 0,
+                      right: 14,
+                      width: 10,
+                      height: 10,
+                      bgcolor: "background.paper",
+                      transform: "translateY(-50%) rotate(45deg)",
+                      zIndex: 0,
+                    },
+                  },
+                },
+              }}
+              transformOrigin={{ horizontal: "right", vertical: "top" }}
+              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+            >
+              <MenuItem onClick={() => handleProfileNav()}>
+                <CustomUserAvatar size={32} />
+                Profile
+              </MenuItem>
+              <Divider />
+              <MenuItem onClick={handleCloseAccount}>
+                <ListItemIcon>
+                  <Settings fontSize="small" />
+                </ListItemIcon>
+                Settings
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  logoutMutation.mutate();
+                  navigate("/");
+                }}
+              >
+                <ListItemIcon>
+                  <Logout fontSize="small" />
+                </ListItemIcon>
+                Logout
+              </MenuItem>
+            </Menu>
+          </Box>
+        </Box>
       </Drawer>
       <Main
         open={open}

@@ -1,17 +1,23 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { IconButton, InputAdornment, TextField } from "@mui/material";
+import { Box, IconButton, InputAdornment, TextField } from "@mui/material";
 import Button from "@mui/material/Button";
-import { registerSchema } from "../../utils/schemas/authSchema";
 import useAuth from "./mutation/useAuth";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import CustomAlert from "../../components/common/CustomAlert";
 import { useState } from "react";
+import { resetPassSchema } from "../../utils/schemas/authSchema";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
-const schema = registerSchema;
-
-export default function Register({ onClose }) {
+const schema = resetPassSchema;
+export default function ResetPasswordForm({ token, email, onClose }) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+
+  const [alert, setAlert] = useState({
+    open: false,
+    severity: "",
+    message: "",
+  });
   const {
     handleSubmit,
     register,
@@ -20,15 +26,25 @@ export default function Register({ onClose }) {
     resolver: yupResolver(schema),
   });
 
-  const { registerMutation } = useAuth();
+  const { resetPassMutation } = useAuth();
 
   const submit = handleSubmit((data) => {
     console.log(data);
-    registerMutation.mutate(data, {
-      onSuccess: () => onClose(),
-    });
+    resetPassMutation.mutate(
+      { ...data, token, email },
+      {
+        onSuccess: () => onClose(),
+        onError: (error) => {
+          console.log(error);
+          setAlert({
+            open: true,
+            severity: "error",
+            message: error.response.data.message, // from reject(new Error(...))
+          });
+        },
+      }
+    );
   });
-
   return (
     <form
       onSubmit={submit}
@@ -39,20 +55,15 @@ export default function Register({ onClose }) {
         padding: 5,
       }}
     >
-      <TextField
-        label="Name"
-        {...register("name")}
-        error={!!errors.name}
-        helperText={errors.name?.message}
-      />
-
-      <TextField
-        label="Email"
-        {...register("email")}
-        error={!!errors.email}
-        helperText={errors.email?.message}
-      />
-
+      {alert.message && (
+        <Box mb={2}>
+          <CustomAlert
+            severity={alert.severity}
+            title={alert.title}
+            message={alert.message}
+          />
+        </Box>
+      )}
       <TextField
         type={showPassword ? "text" : "password"}
         label="New Password"
@@ -76,9 +87,9 @@ export default function Register({ onClose }) {
       <TextField
         type={showConfirm ? "text" : "password"}
         label="Confirm New Password"
-        {...register("confirmPassword")}
-        error={!!errors.confirmPassword}
-        helperText={errors.confirmPassword?.message}
+        {...register("password_confirmation")}
+        error={!!errors.password_confirmation}
+        helperText={errors.password_confirmation?.message}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
@@ -92,14 +103,15 @@ export default function Register({ onClose }) {
           ),
         }}
       />
+
       <Button
         variant="contained"
         type="submit"
         size="large"
-        loading={registerMutation?.isPending}
+        loading={resetPassMutation?.isPending}
         sx={{ borderRadius: 25 }}
       >
-        Register
+        Submit
       </Button>
     </form>
   );

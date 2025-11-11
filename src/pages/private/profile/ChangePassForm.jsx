@@ -2,33 +2,34 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { IconButton, InputAdornment, TextField } from "@mui/material";
 import Button from "@mui/material/Button";
-import { registerSchema } from "../../utils/schemas/authSchema";
-import useAuth from "./mutation/useAuth";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useMutateUserProfile } from "./hooks/mutation/useMutateUserProfile";
+import { changePassSchema } from "../../../utils/schemas/authSchema";
 import { useState } from "react";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
-const schema = registerSchema;
-
-export default function Register({ onClose }) {
+const schema = changePassSchema;
+export default function ChangePassForm() {
+  const [showOldPassword, setShowOldPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const { putProfileMutation } = useMutateUserProfile();
   const {
     handleSubmit,
+    reset,
     register,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   });
 
-  const { registerMutation } = useAuth();
-
   const submit = handleSubmit((data) => {
     console.log(data);
-    registerMutation.mutate(data, {
-      onSuccess: () => onClose(),
+    putProfileMutation.mutate(data, {
+      onSuccess: () => {
+        reset();
+      },
     });
   });
-
   return (
     <form
       onSubmit={submit}
@@ -40,17 +41,23 @@ export default function Register({ onClose }) {
       }}
     >
       <TextField
-        label="Name"
-        {...register("name")}
-        error={!!errors.name}
-        helperText={errors.name?.message}
-      />
-
-      <TextField
-        label="Email"
-        {...register("email")}
-        error={!!errors.email}
-        helperText={errors.email?.message}
+        type={showOldPassword ? "text" : "password"}
+        label="Old Password"
+        {...register("old_password")}
+        error={!!errors.old_password}
+        helperText={errors.old_password?.message}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton
+                onClick={() => setShowOldPassword((prev) => !prev)}
+                edge="end"
+              >
+                {showOldPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
       />
 
       <TextField
@@ -76,9 +83,9 @@ export default function Register({ onClose }) {
       <TextField
         type={showConfirm ? "text" : "password"}
         label="Confirm New Password"
-        {...register("confirmPassword")}
-        error={!!errors.confirmPassword}
-        helperText={errors.confirmPassword?.message}
+        {...register("password_confirmation")}
+        error={!!errors.password_confirmation}
+        helperText={errors.password_confirmation?.message}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
@@ -92,14 +99,15 @@ export default function Register({ onClose }) {
           ),
         }}
       />
+
       <Button
         variant="contained"
         type="submit"
         size="large"
-        loading={registerMutation?.isPending}
+        loading={putProfileMutation?.isPending}
         sx={{ borderRadius: 25 }}
       >
-        Register
+        Change Password
       </Button>
     </form>
   );

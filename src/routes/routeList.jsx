@@ -10,11 +10,17 @@ import Icon from "@mdi/react";
 import { mdiAccountGroup, mdiAccount, mdiAccountKey } from "@mdi/js";
 import { hrisRoutes } from "./hrisRoutes";
 import PublicLayout from "../pages/public/PublicLayout";
+import ResetPasswordForm from "../pages/public/ResetPasswordForm";
 
 const publicRoutes = [
   {
     path: "/",
     element: <PublicLayout />,
+    children: [
+      {
+        path: "reset-password",
+      },
+    ],
   },
   {
     path: "register",
@@ -32,6 +38,62 @@ const privateRoutes = [
     element: <Layout />,
     children: [
       { element: <UserRoles />, index: true },
+      {
+        path: "user-roles",
+        name: "User Roles",
+        element: <UserRoles />,
+        parent: true,
+        icon: <Icon path={mdiAccountKey} size={1} />,
+      },
+      {
+        path: "user-roles",
+        name: "User Roles",
+        element: <UserRoles />,
+        parent: true,
+        icon: <Icon path={mdiAccountKey} size={1} />,
+      },
+      {
+        path: "user-roles",
+        name: "User Roles",
+        element: <UserRoles />,
+        parent: true,
+        icon: <Icon path={mdiAccountKey} size={1} />,
+      },
+      {
+        path: "user-roles",
+        name: "User Roles",
+        element: <UserRoles />,
+        parent: true,
+        icon: <Icon path={mdiAccountKey} size={1} />,
+      },
+      {
+        path: "user-roles",
+        name: "User Roles",
+        element: <UserRoles />,
+        parent: true,
+        icon: <Icon path={mdiAccountKey} size={1} />,
+      },
+      {
+        path: "user-roles",
+        name: "User Roles",
+        element: <UserRoles />,
+        parent: true,
+        icon: <Icon path={mdiAccountKey} size={1} />,
+      },
+      {
+        path: "user-roles",
+        name: "User Roles",
+        element: <UserRoles />,
+        parent: true,
+        icon: <Icon path={mdiAccountKey} size={1} />,
+      },
+      {
+        path: "user-roles",
+        name: "User Roles",
+        element: <UserRoles />,
+        parent: true,
+        icon: <Icon path={mdiAccountKey} size={1} />,
+      },
       {
         path: "user-roles",
         name: "User Roles",
