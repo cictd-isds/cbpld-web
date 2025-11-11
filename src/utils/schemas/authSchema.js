@@ -29,6 +29,16 @@ export const registerSchema = Yup.object({
     .required("Confirm Password is required"),
 });
 
+export const updateUserSchema = Yup.object({
+  name: Yup.string()
+    .min(2, "Name must be at least 2 characters")
+    .required("Name is required"),
+
+  email: Yup.string()
+    .email("Invalid email format")
+    .required("Email is required"),
+});
+
 export const userProfileSchema = Yup.object({
   name: Yup.string()
     .min(2, "Name must be at least 2 characters")
