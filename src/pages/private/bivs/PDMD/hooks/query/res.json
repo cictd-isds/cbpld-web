@@ -1,0 +1,613 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "version": 1,
+      "status": "published",
+      "name": "WITH PERMIT",
+      "created_at": "2025-11-12T08:16:28.000000Z",
+      "updated_at": "2025-11-12T08:16:28.000000Z",
+      "categories": [
+        {
+          "id": 1,
+          "template_id": 1,
+          "name": "Interview",
+          "description": "",
+          "order": 1,
+          "questions": [
+            {
+              "id": 1,
+              "category_id": 1,
+              "description": "Business Code",
+              "placeholder": "Business Code",
+              "helpertext": "",
+              "is_required": 0,
+              "value": "wp_business_code",
+              "order": 1,
+              "is_multiple": 0,
+              "is_conditional": 0,
+              "type": "text",
+              "choices": [
+                {
+                  "id": 1,
+                  "choice_id": 1,
+                  "question_id": 1,
+                  "label": "Text",
+                  "type": "option",
+                  "value": "text",
+                  "code": 0,
+                  "order": 0,
+                  "pivot_inspections": [
+                    {
+                      "id": 1,
+                      "user_id": 2,
+                      "transaction_id": "0125-0001",
+                      "value_number": null,
+                      "value_date": null,
+                      "value_datetime": null,
+                      "value_bool": null,
+                      "value_text": "Business Code",
+                      "geo_lat": null,
+                      "geo_lng": null,
+                      "created_at": "2025-11-12T08:16:30.000000Z",
+                      "updated_at": "2025-11-12T08:16:30.000000Z",
+                      "pivot": {
+                        "choice_id": 1,
+                        "inspection_id": 1
+                      },
+                      "inspection_medias": []
+                    }
+                  ],
+                  "pivot_followup_questions": []
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "category_id": 1,
+              "description": "Contact No.",
+              "placeholder": "+639",
+              "helpertext": "",
+              "is_required": 0,
+              "value": "wp_contact_no",
+              "order": 4,
+              "is_multiple": 0,
+              "is_conditional": 0,
+              "type": "number",
+              "choices": [
+                {
+                  "id": 22,
+                  "choice_id": 22,
+                  "question_id": 4,
+                  "label": "Number",
+                  "type": "option",
+                  "value": "number",
+                  "code": 0,
+                  "order": 0,
+                  "pivot_inspections": [
+                    {
+                      "id": 4,
+                      "user_id": 2,
+                      "transaction_id": "0125-0001",
+                      "value_number": 1,
+                      "value_date": null,
+                      "value_datetime": null,
+                      "value_bool": null,
+                      "value_text": null,
+                      "geo_lat": null,
+                      "geo_lng": null,
+                      "created_at": "2025-11-12T08:16:30.000000Z",
+                      "updated_at": "2025-11-12T08:16:30.000000Z",
+                      "pivot": {
+                        "choice_id": 22,
+                        "inspection_id": 4
+                      },
+                      "inspection_medias": []
+                    }
+                  ],
+                  "pivot_followup_questions": []
+                }
+              ]
+            },
+            {
+              "id": 8,
+              "category_id": 1,
+              "description": "Geotag Coordinates",
+              "placeholder": "Geotag Coordinates",
+              "helpertext": "",
+              "is_required": 0,
+              "value": "wp_geotag_coordinates",
+              "order": 8,
+              "is_multiple": 0,
+              "is_conditional": 0,
+              "type": "geography",
+              "choices": [
+                {
+                  "id": 40,
+                  "choice_id": 40,
+                  "question_id": 8,
+                  "label": "Geography",
+                  "type": "option",
+                  "value": "geography",
+                  "code": 0,
+                  "order": 0,
+                  "pivot_inspections": [
+                    {
+                      "id": 8,
+                      "user_id": 2,
+                      "transaction_id": "0125-0001",
+                      "value_number": null,
+                      "value_date": null,
+                      "value_datetime": null,
+                      "value_bool": null,
+                      "value_text": "14.5995,120.9842",
+                      "geo_lat": "14.5995",
+                      "geo_lng": "120.9842",
+                      "created_at": "2025-11-12T08:16:30.000000Z",
+                      "updated_at": "2025-11-12T08:16:30.000000Z",
+                      "pivot": {
+                        "choice_id": 40,
+                        "inspection_id": 8
+                      },
+                      "inspection_medias": []
+                    }
+                  ],
+                  "pivot_followup_questions": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "template_id": 1,
+          "name": "Details",
+          "description": "",
+          "order": 2,
+          "questions": [
+            {
+              "id": 9,
+              "category_id": 2,
+              "description": "Type of Inspection",
+              "placeholder": "Type of Inspection",
+              "helpertext": "",
+              "is_required": 0,
+              "value": "wp_type_of_inspection",
+              "order": 9,
+              "is_multiple": 0,
+              "is_conditional": 1,
+              "type": "select",
+              "choices": [
+                {
+                  "id": 244,
+                  "choice_id": 244,
+                  "question_id": 9,
+                  "label": "Regular",
+                  "type": "option",
+                  "value": "wp_regular",
+                  "code": 0,
+                  "order": 1,
+                  "pivot_inspections": [
+                    {
+                      "id": 9,
+                      "user_id": 2,
+                      "transaction_id": "0125-0001",
+                      "value_number": null,
+                      "value_date": null,
+                      "value_datetime": null,
+                      "value_bool": null,
+                      "value_text": "Regular",
+                      "geo_lat": null,
+                      "geo_lng": null,
+                      "created_at": "2025-11-12T08:16:30.000000Z",
+                      "updated_at": "2025-11-12T08:16:30.000000Z",
+                      "pivot": {
+                        "choice_id": 244,
+                        "inspection_id": 9
+                      },
+                      "inspection_medias": []
+                    }
+                  ],
+                  "pivot_followup_questions": [
+                    {
+                      "id": 11,
+                      "description": "Line of Business",
+                      "placeholder": "- Select PSIC Code -",
+                      "helpertext": "",
+                      "is_required": 0,
+                      "value": "wp_line_of_business",
+                      "order": 11,
+                      "is_multiple": 1,
+                      "is_conditional": 0,
+                      "type": "select",
+                      "pivot": {
+                        "choice_id": 244,
+                        "question_id": 11,
+                        "created_at": "2025-11-12T08:16:29.000000Z",
+                        "updated_at": "2025-11-12T08:16:29.000000Z",
+                        "order": 1
+                      },
+                      "choices": [
+                        {
+                          "id": 252,
+                          "choice_id": 252,
+                          "question_id": 11,
+                          "label": "110 - COMMISSIONED ARMED FORCES OFFICERS",
+                          "type": "option",
+                          "value": "wp_110_commissioned_armed_forces_officers",
+                          "code": 110,
+                          "order": 1,
+                          "pivot_inspections": [
+                            {
+                              "id": 10,
+                              "user_id": 2,
+                              "transaction_id": "0125-0001",
+                              "value_number": null,
+                              "value_date": null,
+                              "value_datetime": null,
+                              "value_bool": null,
+                              "value_text": "110 - COMMISSIONED ARMED FORCES OFFICERS",
+                              "geo_lat": null,
+                              "geo_lng": null,
+                              "created_at": "2025-11-12T08:16:30.000000Z",
+                              "updated_at": "2025-11-12T08:16:30.000000Z",
+                              "pivot": {
+                                "choice_id": 252,
+                                "inspection_id": 10
+                              },
+                              "inspection_medias": []
+                            }
+                          ],
+                          "pivot_followup_questions": []
+                        },
+                        {
+                          "id": 253,
+                          "choice_id": 253,
+                          "question_id": 11,
+                          "label": "2265 - DIETICIANS AND NUTRITIONISTS",
+                          "type": "option",
+                          "value": "wp_2265_dieticians_and_nutritionists",
+                          "code": 2265,
+                          "order": 2,
+                          "pivot_inspections": [],
+                          "pivot_followup_questions": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": 12,
+                      "description": "Daily Gross",
+                      "placeholder": "Daily Gross",
+                      "helpertext": "",
+                      "is_required": 0,
+                      "value": "wp_daily_gross",
+                      "order": 12,
+                      "is_multiple": 1,
+                      "is_conditional": 0,
+                      "type": "text",
+                      "pivot": {
+                        "choice_id": 244,
+                        "question_id": 12,
+                        "created_at": "2025-11-12T08:16:29.000000Z",
+                        "updated_at": "2025-11-12T08:16:29.000000Z",
+                        "order": 2
+                      },
+                      "choices": [
+                        {
+                          "id": 7,
+                          "choice_id": 7,
+                          "question_id": 12,
+                          "label": "Text",
+                          "type": "option",
+                          "value": "text",
+                          "code": 0,
+                          "order": 0,
+                          "pivot_inspections": [
+                            {
+                              "id": 11,
+                              "user_id": 2,
+                              "transaction_id": "0125-0001",
+                              "value_number": null,
+                              "value_date": null,
+                              "value_datetime": null,
+                              "value_bool": null,
+                              "value_text": "Daily Gross",
+                              "geo_lat": null,
+                              "geo_lng": null,
+                              "created_at": "2025-11-12T08:16:30.000000Z",
+                              "updated_at": "2025-11-12T08:16:30.000000Z",
+                              "pivot": {
+                                "choice_id": 7,
+                                "inspection_id": 11
+                              },
+                              "inspection_medias": []
+                            }
+                          ],
+                          "pivot_followup_questions": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": 14,
+                      "description": "Photo of the Establishment",
+                      "placeholder": "Open Camera",
+                      "helpertext": "Max 10 Uploads*",
+                      "is_required": 0,
+                      "value": "wp_photo_of_establishment",
+                      "order": 14,
+                      "is_multiple": 0,
+                      "is_conditional": 0,
+                      "type": "image",
+                      "pivot": {
+                        "choice_id": 244,
+                        "question_id": 14,
+                        "created_at": "2025-11-12T08:16:29.000000Z",
+                        "updated_at": "2025-11-12T08:16:29.000000Z",
+                        "order": 4
+                      },
+                      "choices": [
+                        {
+                          "id": 43,
+                          "choice_id": 43,
+                          "question_id": 14,
+                          "label": "Image",
+                          "type": "option",
+                          "value": "image",
+                          "code": 0,
+                          "order": 0,
+                          "pivot_inspections": [
+                            {
+                              "id": 13,
+                              "user_id": 2,
+                              "transaction_id": "0125-0001",
+                              "value_number": null,
+                              "value_date": null,
+                              "value_datetime": null,
+                              "value_bool": null,
+                              "value_text": "Image attached",
+                              "geo_lat": null,
+                              "geo_lng": null,
+                              "created_at": "2025-11-12T08:16:30.000000Z",
+                              "updated_at": "2025-11-12T08:16:30.000000Z",
+                              "pivot": {
+                                "choice_id": 43,
+                                "inspection_id": 13
+                              },
+                              "inspection_medias": [
+                                {
+                                  "id": 1,
+                                  "created_at": "2025-11-12T08:16:30.000000Z",
+                                  "updated_at": "2025-11-12T08:16:30.000000Z",
+                                  "file_path": "uploads/inspections/wp_photo_of_establishment.jpg",
+                                  "file_type": "image",
+                                  "mime_type": "image/jpeg",
+                                  "inspection_id": 13
+                                }
+                              ]
+                            }
+                          ],
+                          "pivot_followup_questions": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": 245,
+                  "choice_id": 245,
+                  "question_id": 9,
+                  "label": "Joint",
+                  "type": "option",
+                  "value": "wp_joint",
+                  "code": 1,
+                  "order": 2,
+                  "pivot_inspections": [],
+                  "pivot_followup_questions": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "template_id": 1,
+          "name": "Violation Status",
+          "description": "",
+          "order": 3,
+          "questions": [
+            {
+              "id": 21,
+              "category_id": 3,
+              "description": "Status of Violation",
+              "placeholder": "Select Status of Violation",
+              "helpertext": "",
+              "is_required": 0,
+              "value": "wp_status_of_violation",
+              "order": 21,
+              "is_multiple": 0,
+              "is_conditional": 1,
+              "type": "select",
+              "choices": [
+                {
+                  "id": 273,
+                  "choice_id": 273,
+                  "question_id": 21,
+                  "label": "Without Violation",
+                  "type": "option",
+                  "value": "wp_without_violation",
+                  "code": 0,
+                  "order": 1,
+                  "pivot_inspections": [
+                    {
+                      "id": 20,
+                      "user_id": 2,
+                      "transaction_id": "0125-0001",
+                      "value_number": null,
+                      "value_date": null,
+                      "value_datetime": null,
+                      "value_bool": null,
+                      "value_text": "Without Violation",
+                      "geo_lat": null,
+                      "geo_lng": null,
+                      "created_at": "2025-11-12T08:16:30.000000Z",
+                      "updated_at": "2025-11-12T08:16:30.000000Z",
+                      "pivot": {
+                        "choice_id": 273,
+                        "inspection_id": 20
+                      },
+                      "inspection_medias": []
+                    }
+                  ],
+                  "pivot_followup_questions": [
+                    {
+                      "id": 22,
+                      "description": "Advised to change address",
+                      "placeholder": "",
+                      "helpertext": "",
+                      "is_required": 0,
+                      "value": "wp_advised_to_change_address",
+                      "order": 22,
+                      "is_multiple": 0,
+                      "is_conditional": 0,
+                      "type": "checkbox",
+                      "pivot": {
+                        "choice_id": 273,
+                        "question_id": 22,
+                        "created_at": "2025-11-12T08:16:29.000000Z",
+                        "updated_at": "2025-11-12T08:16:29.000000Z",
+                        "order": 1
+                      },
+                      "choices": [
+                        {
+                          "id": 110,
+                          "choice_id": 110,
+                          "question_id": 22,
+                          "label": "Yes",
+                          "type": "option",
+                          "value": "yes",
+                          "code": 1,
+                          "order": 1,
+                          "pivot_inspections": [],
+                          "pivot_followup_questions": []
+                        },
+                        {
+                          "id": 111,
+                          "choice_id": 111,
+                          "question_id": 22,
+                          "label": "No",
+                          "type": "option",
+                          "value": "no",
+                          "code": 0,
+                          "order": 2,
+                          "pivot_inspections": [
+                            {
+                              "id": 21,
+                              "user_id": 2,
+                              "transaction_id": "0125-0001",
+                              "value_number": null,
+                              "value_date": null,
+                              "value_datetime": null,
+                              "value_bool": null,
+                              "value_text": "No",
+                              "geo_lat": null,
+                              "geo_lng": null,
+                              "created_at": "2025-11-12T08:16:30.000000Z",
+                              "updated_at": "2025-11-12T08:16:30.000000Z",
+                              "pivot": {
+                                "choice_id": 111,
+                                "inspection_id": 21
+                              },
+                              "inspection_medias": []
+                            }
+                          ],
+                          "pivot_followup_questions": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": 23,
+                      "description": "Change line of business to PSIC",
+                      "placeholder": "",
+                      "helpertext": "",
+                      "is_required": 0,
+                      "value": "wp_change_line_of_business_to_psic",
+                      "order": 23,
+                      "is_multiple": 0,
+                      "is_conditional": 0,
+                      "type": "checkbox",
+                      "pivot": {
+                        "choice_id": 273,
+                        "question_id": 23,
+                        "created_at": "2025-11-12T08:16:29.000000Z",
+                        "updated_at": "2025-11-12T08:16:29.000000Z",
+                        "order": 2
+                      },
+                      "choices": [
+                        {
+                          "id": 112,
+                          "choice_id": 112,
+                          "question_id": 23,
+                          "label": "Yes",
+                          "type": "option",
+                          "value": "yes",
+                          "code": 1,
+                          "order": 1,
+                          "pivot_inspections": [],
+                          "pivot_followup_questions": []
+                        },
+                        {
+                          "id": 113,
+                          "choice_id": 113,
+                          "question_id": 23,
+                          "label": "No",
+                          "type": "option",
+                          "value": "no",
+                          "code": 0,
+                          "order": 2,
+                          "pivot_inspections": [
+                            {
+                              "id": 22,
+                              "user_id": 2,
+                              "transaction_id": "0125-0001",
+                              "value_number": null,
+                              "value_date": null,
+                              "value_datetime": null,
+                              "value_bool": null,
+                              "value_text": "No",
+                              "geo_lat": null,
+                              "geo_lng": null,
+                              "created_at": "2025-11-12T08:16:30.000000Z",
+                              "updated_at": "2025-11-12T08:16:30.000000Z",
+                              "pivot": {
+                                "choice_id": 113,
+                                "inspection_id": 22
+                              },
+                              "inspection_medias": []
+                            }
+                          ],
+                          "pivot_followup_questions": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": 274,
+                  "choice_id": 274,
+                  "question_id": 21,
+                  "label": "With Violation",
+                  "type": "option",
+                  "value": "wp_with_violation",
+                  "code": 1,
+                  "order": 2,
+                  "pivot_inspections": [],
+                  "pivot_followup_questions": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

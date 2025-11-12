@@ -6,10 +6,17 @@ import Layout from "../pages/private/Layout";
 import { projRoutes } from "./projRoutes";
 import UserRoles from "../pages/private/roles/UserRoles";
 import Icon from "@mdi/react";
-import { mdiAccountGroup, mdiAccount, mdiAccountKey } from "@mdi/js";
+import {
+  mdiAccountGroup,
+  mdiAccount,
+  mdiAccountKey,
+  mdiViewDashboardVariantOutline,
+} from "@mdi/js";
 import { hrisRoutes } from "./hrisRoutes";
 import PublicLayout from "../pages/public/PublicLayout";
 import UserManagement from "../pages/private/user_management/UserManagement";
+import Departmental_dashboard from "../pages/private/departmental_dashboard";
+import { bivsRoutes } from "./bivsRoutes";
 
 const publicRoutes = [
   {
@@ -36,7 +43,14 @@ const privateRoutes = [
     path: "home",
     element: <Layout />,
     children: [
-      { element: <UserRoles />, index: true },
+      { element: <Departmental_dashboard />, index: true },
+      {
+        path: "dashboard",
+        name: "Dashboard",
+        element: <Departmental_dashboard />,
+        parent: true,
+        icon: <Icon path={mdiViewDashboardVariantOutline} size={1} />,
+      },
       {
         path: "user-roles",
         name: "User Roles",
@@ -60,6 +74,7 @@ const privateRoutes = [
       },
       ...projRoutes,
       ...hrisRoutes,
+      ...bivsRoutes,
     ],
   },
 ];
