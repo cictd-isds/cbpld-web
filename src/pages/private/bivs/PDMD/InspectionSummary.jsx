@@ -114,6 +114,10 @@ const InspectionSummary = ({ data, inspectDetails }) => {
 
   return (
     <Box sx={{ p: 2 }}>
+      <Typography variant="h2" mb={2}>
+        Review Inspection
+      </Typography>
+
       {/* 🟢 Top Summary Table */}
       <Paper
         elevation={3}
@@ -132,7 +136,7 @@ const InspectionSummary = ({ data, inspectDetails }) => {
                 <TableCell
                   sx={{
                     backgroundColor: "#BBDEFB",
-                    fontWeight: "bold",
+                    fontWeight: "500",
                     width: "200px",
                   }}
                 >

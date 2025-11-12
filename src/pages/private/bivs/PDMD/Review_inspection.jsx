@@ -14,7 +14,6 @@ function Review_inspection() {
 
   return (
     <div>
-      <h2 style={{ marginBottom: 2 }}>Review Inspection</h2>
       {data && (
         <InspectionSummary
           data={data.data}
