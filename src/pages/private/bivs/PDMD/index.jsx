@@ -1,10 +1,11 @@
 import { Fragment } from "react";
 import Datatable from "../../../../components/datatables/Datatable";
-import { Box, Chip, IconButton, Tooltip } from "@mui/material";
+import { Box, Chip, IconButton, Tooltip, Typography } from "@mui/material";
 import { BIVS_PDMD_INSPECT_LIST } from "../../../../utils/queryKeys";
 import { mdiClipboardSearchOutline, mdiEye } from "@mdi/js";
 import Icon from "@mdi/react";
 import { useNavigate } from "react-router";
+import ProgressWithLabel from "../../../../components/common/ProgressWithLabel";
 
 export default function PDMD() {
   const navigate = useNavigate();
@@ -27,98 +28,36 @@ export default function PDMD() {
       flex: 1,
     },
     {
-      field: "inspector_name",
-      headerName: "Inspector Name",
+      // field: "inspector_name",
+      headerName: "Title",
       flex: 1,
-    },
-    {
-      field: "status_of_violation",
-      headerName: "Violation Status",
-      flex: 1,
-      //   renderCell: (params) => {
-      //   const value = params.value;
-
-      //   let color = "default";
-      //   let label = value;
-
-      //   switch (value) {
-      //     case "Without Violation":
-      //       color = "success";
-      //       break;
-      //     case "With Violation":
-      //       color = "error";
-      //       break;
-      //     case "Non-Business Related":
-      //       color = "warning";
-      //       break;
-      //     default:
-      //       color = "default";
-      //   }
-
-      //   return (
-      //     <Chip
-      //       label={label}
-      //       color={color}
-      //       variant="outlined"
-      //       sx={{
-      //         fontWeight: 600,
-      //         borderRadius: "8px",
-      //         textTransform: "capitalize",
-      //         fontSize: "0.85rem",
-      //       }}
-      //     />
-      //   );
-      // },
       renderCell: (params) => {
-        const value = params.value;
-        let bg = "";
-        let color = "";
-
-        switch (value) {
-          case "Without Violation":
-            bg = "#E8F5E9"; // light green
-            color = "#2E7D32"; // dark green
-            break;
-          case "With Violation":
-            bg = "#FFEBEE"; // light red
-            color = "#C62828"; // dark red
-            break;
-          case "Non-Business Related":
-            bg = "#FFF8E1"; // light yellow
-            color = "#F9A825"; // dark yellow
-            break;
-          default:
-            bg = "#ECEFF1";
-            color = "#37474F";
-        }
-
+        const row = params.row;
         return (
           <Box
             sx={{
-              px: 1.5,
-              py: 0.5,
-              borderRadius: "8px",
-              bgcolor: bg,
-              color: color,
-              fontWeight: 600,
-              textAlign: "center",
-              fontSize: "0.85rem",
-              minWidth: "fit-content",
+              height: "100%",
+              width: "100%",
+              display: "flex",
+              justifyContent: "start",
+              alignItems: "center",
             }}
           >
-            {value}
+            <Box>
+              <Typography sx={{ fontSize: 13, fontWeight: "600" }}>
+                {row.title}
+              </Typography>
+              <Typography sx={{ fontSize: 11, color: "gray" }}>
+                {row.inspector_name}
+              </Typography>
+            </Box>
           </Box>
         );
       },
     },
     {
-      field: "status_of_compliance",
-      headerName: "Compliance Status",
-      flex: 1,
-    },
-    {
       field: "inspected_at",
-      headerName: "Inscpection Date",
+      headerName: " Date",
       flex: 1,
       renderCell: (params) => {
         const rawDate = params.value; // e.g. '2025-11-12 08:17:53'
@@ -134,11 +73,81 @@ export default function PDMD() {
         return formattedDate;
       },
     },
+    {
+      field: "status_of_violations",
+      headerName: " Status",
+      flex: 1,
+      renderCell: (params) => {
+        const value = params.value;
+
+        let color = "default";
+        let label = value;
+
+        switch (value) {
+          case "Without Violation":
+            color = "success";
+            break;
+          case "With Violation":
+            color = "error";
+            break;
+          case "Non-Business Related":
+            color = "warning";
+            break;
+          default:
+            color = "default";
+        }
+
+        return (
+          <Box
+            sx={{
+              height: "100%",
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Chip
+              label={label}
+              color={color}
+              sx={{
+                fontWeight: 600,
+                borderRadius: "8px",
+                textTransform: "capitalize",
+                fontSize: "0.85rem",
+              }}
+            />
+          </Box>
+        );
+      },
+    },
+    {
+      field: "status_of_compliance",
+      headerName: "Review Progress",
+      flex: 1,
+      renderCell: (params) => {
+        const value = params.value;
+
+        return (
+          <Box
+            sx={{
+              height: "100%",
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <ProgressWithLabel value={value ?? 0} />
+          </Box>
+        );
+      },
+    },
 
     {
       field: "actions",
       headerName: "Actions",
-      minWidth: 220,
+      minWidth: 100,
       flex: 0,
       headerAlign: "center",
       align: "center",
@@ -161,7 +170,7 @@ export default function PDMD() {
                   handleRedirect(
                     row.transaction_id,
                     row.inspector_name,
-                    row.status_of_violation,
+                    row.status_of_violations,
                     row.inspected_at
                   )
                 }
@@ -178,7 +187,7 @@ export default function PDMD() {
     <Fragment>
       <Box>
         <Datatable
-          apiLink="/api/v1/bivs/transactions/list"
+          apiLink="/api/v1/bivs/inspections/"
           customColumns={columnHeader}
           exportFileName=""
           queryKey={BIVS_PDMD_INSPECT_LIST}

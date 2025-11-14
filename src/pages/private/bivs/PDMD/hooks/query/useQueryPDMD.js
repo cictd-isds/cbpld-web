@@ -6,7 +6,7 @@ export default function useQueryPDMD(transactionID) {
   console.log("transactionID", transactionID);
   const fetchInspection = async ({ queryKey }) => {
     const [, id] = queryKey; // ✅ destructure transactionID from queryKey
-    const response = await API.get(`/api/v1/bivs/inspections/show/${id}`);
+    const response = await API.get(`/api/v1/bivs/inspections/${id}`);
     return response.data;
   };
 

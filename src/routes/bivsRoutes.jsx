@@ -37,6 +37,7 @@ export const bivsRoutes = [
         element: <Review_inspection />,
         path: "pdmd/:transactionId/:inspectorName/:violationStatus/:inspectDate",
         // icon: <Icon path={mdiHomeSearch} size={1} />, // no icon
+        hidden: true,
       },
     ],
   },
